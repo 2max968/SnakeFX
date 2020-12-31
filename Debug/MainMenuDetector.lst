@@ -1,0 +1,269 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Dec-2020 15:13:43  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: E:\Entwicklung\Casio\SDK\Snake\MainMenuDetector.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+      MainMenuDe     1    #include "MainMenuDetector.h"
+      MainMenuDe     2    #include "fxlib.h"
+      MainMenuDe     3    #include "SNAKE.h"
+      MainMenuDe     4    #include <stdlib.h>
+      MainMenuDe     5    
+      MainMenuDe     6    uchar *m;
+      MainMenuDe     7    
+      MainMenuDe     8    void InitDetector()
+P   00000000              _InitDetector:                   ; function: InitDetector
+                                                           ; frame size=28
+                                                           ; used runtime library name:
+                                                           ; __divls, __modls
+    00000000 2FE6                   MOV.L       R14,@-R15
+    00000002 2FD6                   MOV.L       R13,@-R15
+    00000004 2FC6                   MOV.L       R12,@-R15
+    00000006 2FB6                   MOV.L       R11,@-R15
+    00000008 2FA6                   MOV.L       R10,@-R15
+    0000000A 2F86                   MOV.L       R8,@-R15
+    0000000C 4F22                   STS.L       PR,@-R15
+      MainMenuDe     9    {
+      MainMenuDe    10        int i, x, y;
+      MainMenuDe    11        m = (uchar*)malloc_sec(6*8);
+    0000000E DC2C                   MOV.L       L340,R12   ; _m
+    00000010 D32C                   MOV.L       L340+4,R3  ; _malloc_sec
+    00000012 430B                   JSR         @R3
+    00000014 E430                   MOV         #48,R4
+      MainMenuDe    12        Bdisp_AllClr_VRAM();
+    00000016 D22C                   MOV.L       L340+8,R2  ; _Bdisp_AllClr_VRAM
+    00000018 420B                   JSR         @R2
+    0000001A 2C02                   MOV.L       R0,@R12
+      MainMenuDe    13        PrintXY(0, 0, (uchar*)"M", 0);
+    0000001C D62B                   MOV.L       L340+12,R6 ; L325
+    0000001E E700                   MOV         #0,R7
+    00000020 D32B                   MOV.L       L340+16,R3 ; _PrintXY
+    00000022 6573                   MOV         R7,R5
+    00000024 430B                   JSR         @R3
+    00000026 6473                   MOV         R7,R4
+      MainMenuDe    14        for(i = 0; i < 8*6; i++)
+    00000028 DA2A                   MOV.L       L340+20,R10; _Bdisp_GetPoint_VRAM
+    0000002A EB30                   MOV         #48,R11
+    0000002C ED06                   MOV         #6,R13
+    0000002E EE00                   MOV         #0,R14
+    00000030              L335:                             
+      MainMenuDe    15        {
+      MainMenuDe    16            x = i % 6;
+    00000030 D229                   MOV.L       L340+24,R2 ; __modls
+    00000032 61E3                   MOV         R14,R1
+    00000034 420B                   JSR         @R2
+    00000036 60D3                   MOV         R13,R0
+      MainMenuDe    17            y = i / 6;
+    00000038 D328                   MOV.L       L340+28,R3 ; __divls
+    0000003A 6403                   MOV         R0,R4
+    0000003C 61E3                   MOV         R14,R1
+    0000003E 430B                   JSR         @R3
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Dec-2020 15:13:43  PAGE    2
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000040 60D3                   MOV         R13,R0
+    00000042 6503                   MOV         R0,R5
+      MainMenuDe    18            m[i] = Bdisp_GetPoint_VRAM(x, y);
+    00000044 68C2                   MOV.L       @R12,R8
+    00000046 4A0B                   JSR         @R10
+    00000048 38EC                   ADD         R14,R8
+    0000004A 7E01                   ADD         #1,R14
+    0000004C 3EB3                   CMP/GE      R11,R14
+    0000004E 8FEF                   BF/S        L335
+    00000050 2800                   MOV.B       R0,@R8
+      MainMenuDe    19        }
+      MainMenuDe    20    }
+    00000052 4F26                   LDS.L       @R15+,PR
+    00000054 68F6                   MOV.L       @R15+,R8
+    00000056 6AF6                   MOV.L       @R15+,R10
+    00000058 6BF6                   MOV.L       @R15+,R11
+    0000005A 6CF6                   MOV.L       @R15+,R12
+    0000005C 6DF6                   MOV.L       @R15+,R13
+    0000005E 000B                   RTS
+    00000060 6EF6                   MOV.L       @R15+,R14
+      MainMenuDe    21    
+      MainMenuDe    22    void UninitDetector()
+    00000062              _UninitDetector:                 ; function: UninitDetector
+                                                           ; frame size=0
+      MainMenuDe    23    {
+      MainMenuDe    24        free(m);
+    00000062 D317                   MOV.L       L340,R3    ; _m
+    00000064 D21E                   MOV.L       L340+32,R2 ; _free
+    00000066 422B                   JMP         @R2
+    00000068 6432                   MOV.L       @R3,R4
+      MainMenuDe    25    }
+      MainMenuDe    26    
+      MainMenuDe    27    uchar CheckForMenu()
+    0000006A              _CheckForMenu:                   ; function: CheckForMenu
+                                                           ; frame size=28
+                                                           ; used runtime library name:
+                                                           ; __divls, __modls
+    0000006A 2FE6                   MOV.L       R14,@-R15
+    0000006C 2FD6                   MOV.L       R13,@-R15
+      MainMenuDe    28    {
+      MainMenuDe    29        int i, x, y, offs;
+      MainMenuDe    30    
+      MainMenuDe    31        offs = 6*6+1;
+      MainMenuDe    32        for(i = 0; i < 6*8; i++)
+    0000006E EE00                   MOV         #0,R14
+    00000070 2FC6                   MOV.L       R12,@-R15
+    00000072 ED06                   MOV         #6,R13
+    00000074 2FB6                   MOV.L       R11,@-R15
+    00000076 EC30                   MOV         #48,R12
+    00000078 2FA6                   MOV.L       R10,@-R15
+    0000007A 2F86                   MOV.L       R8,@-R15
+    0000007C 4F22                   STS.L       PR,@-R15
+    0000007E DA15                   MOV.L       L340+20,R10; _Bdisp_GetPoint_VRAM
+    00000080 DB0F                   MOV.L       L340,R11   ; _m
+    00000082              L337:                             
+      MainMenuDe    33        {
+      MainMenuDe    34            x = offs + i % 6;
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Dec-2020 15:13:43  PAGE    3
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000082 61E3                   MOV         R14,R1
+    00000084 D314                   MOV.L       L340+24,R3 ; __modls
+    00000086 430B                   JSR         @R3
+    00000088 60D3                   MOV         R13,R0
+    0000008A 6403                   MOV         R0,R4
+      MainMenuDe    35            y = i / 6;
+    0000008C D213                   MOV.L       L340+28,R2 ; __divls
+    0000008E 61E3                   MOV         R14,R1
+    00000090 7425                   ADD         #37,R4
+    00000092 420B                   JSR         @R2
+    00000094 60D3                   MOV         R13,R0
+    00000096 6503                   MOV         R0,R5
+      MainMenuDe    36            if(m[i] != Bdisp_GetPoint_VRAM(x, y)) return 0;
+    00000098 60B2                   MOV.L       @R11,R0
+    0000009A 03EC                   MOV.B       @(R0,R14),R3
+    0000009C 4A0B                   JSR         @R10
+    0000009E 683C                   EXTU.B      R3,R8
+    000000A0 3800                   CMP/EQ      R0,R8
+    000000A2 8901                   BT          L338
+    000000A4 A004                   BRA         L339
+    000000A6 E000                   MOV         #0,R0
+    000000A8              L338:                             
+    000000A8 7E01                   ADD         #1,R14
+    000000AA 3EC3                   CMP/GE      R12,R14
+    000000AC 8BE9                   BF          L337
+      MainMenuDe    37        }
+      MainMenuDe    38        return 1;
+    000000AE E001                   MOV         #1,R0
+      MainMenuDe    39    }
+    000000B0              L339:                             
+    000000B0 4F26                   LDS.L       @R15+,PR
+    000000B2 68F6                   MOV.L       @R15+,R8
+    000000B4 6AF6                   MOV.L       @R15+,R10
+    000000B6 6BF6                   MOV.L       @R15+,R11
+    000000B8 6CF6                   MOV.L       @R15+,R12
+    000000BA 6DF6                   MOV.L       @R15+,R13
+    000000BC 000B                   RTS
+    000000BE 6EF6                   MOV.L       @R15+,R14
+    000000C0              L340:                             
+    000000C0 <00000000>             .DATA.L     _m
+    000000C4 <00000000>             .DATA.L     _malloc_sec
+    000000C8 <00000000>             .DATA.L     _Bdisp_AllClr_VRAM
+    000000CC <00000000>             .DATA.L     L325
+    000000D0 <00000000>             .DATA.L     _PrintXY
+    000000D4 <00000000>             .DATA.L     _Bdisp_GetPoint_VRAM
+    000000D8 <00000000>             .DATA.L     __modls
+    000000DC <00000000>             .DATA.L     __divls
+    000000E0 <00000000>             .DATA.L     _free
+C   00000000              L325:
+    00000000 4D                     .SDATA      "M"
+    00000001 00                     .DATA.B     H'00
+B   00000000              _m:                              ; static: m
+    00000000 00000004               .RES.L      1
+
+
+
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Dec-2020 15:13:43  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       39
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               000000E4 Byte(s)
+CONSTANT SECTION (C):                               00000002 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000004 Byte(s)
+
+ TOTAL PROGRAM SIZE: 000000EA Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            7
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           4
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            17
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\DOCUME~1\milky\LOCALS~1\Temp\hmk520.tmp 
+

@@ -1,0 +1,599 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 31-Dec-2020 06:51:05  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: E:\Entwicklung\Casio\SDK\Snake\SNAKE.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+         SNAKE.c     1    /*****************************************************************/
+         SNAKE.c     2    /*                                                               */
+         SNAKE.c     3    /*   CASIO fx-9860G SDK Library                                  */
+         SNAKE.c     4    /*                                                               */
+         SNAKE.c     5    /*   File name : [ProjectName].c                                 */
+         SNAKE.c     6    /*                                                               */
+         SNAKE.c     7    /*   Copyright (c) 2006 CASIO COMPUTER CO., LTD.                 */
+         SNAKE.c     8    /*                                                               */
+         SNAKE.c     9    /*****************************************************************/
+         SNAKE.c    10    #include "fxlib.h"
+         SNAKE.c    11    #include "timer.h"
+         SNAKE.c    12    #include "SNAKE.h"
+         SNAKE.c    13    #include <stdio.h>
+         SNAKE.c    14    #include "Menu.h"
+         SNAKE.c    15    #include "Game.h"
+         SNAKE.c    16    #include "Maps.h"
+         SNAKE.c    17    #include "MainMenuDetector.h"
+         SNAKE.c    18    
+         SNAKE.c    19    #define STATE_MAINMENU 1
+         SNAKE.c    20    #define STATE_DIFFSELECT 2
+         SNAKE.c    21    #define STATE_MAPSELECT 3
+         SNAKE.c    22    #define STATE_GAME 4
+         SNAKE.c    23    #define STATE_GAMEOVERSCREEN 5
+         SNAKE.c    24    #define STATE_HELP 6
+         SNAKE.c    25    #define STATE_ABOUT 7
+         SNAKE.c    26    
+         SNAKE.c    27    const char *txtHelp = "[\xE3,8] Move up\n[DOWN, 2] Move down\n[\xE4, 4] Move left\n[RIGHT, 6] Move right\n
+                         +[EXIT] Game Menu";
+         SNAKE.c    28    const char *txtAbout = "Snake for\nCasio fx-9860GII\n\nby Max Haag";
+         SNAKE.c    29    
+         SNAKE.c    30    //****************************************************************************
+         SNAKE.c    31    //  AddIn_main (Sample program main function)
+         SNAKE.c    32    //
+         SNAKE.c    33    //  param   :   isAppli   : 1 = This application is launched by MAIN MENU.
+         SNAKE.c    34    //                        : 0 = This application is launched by a strip in eACT application.
+         SNAKE.c    35    //
+         SNAKE.c    36    //              OptionNum : Strip number (0~3)
+         SNAKE.c    37    //                         (This parameter is only used when isAppli parameter is 0.)
+         SNAKE.c    38    //
+         SNAKE.c    39    //  retval  :   1 = No error / 0 = Error
+         SNAKE.c    40    //
+         SNAKE.c    41    //****************************************************************************
+         SNAKE.c    42    int AddIn_main(int isAppli, unsigned short OptionNum)
+P   00000000              _AddIn_main:                     ; function: AddIn_main
+                                                           ; frame size=36
+         SNAKE.c    43    {
+         SNAKE.c    44        unsigned int key;
+         SNAKE.c    45        int score, exitReason, res, difficulty, map;
+         SNAKE.c    46        unsigned int state = STATE_MAINMENU;
+         SNAKE.c    47        char text[30];
+         SNAKE.c    48    
+         SNAKE.c    49        InitDetector();
+    00000000 D342                   MOV.L       L436,R3    ; _InitDetector
+    00000002 7FDC                   ADD         #-36,R15
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 31-Dec-2020 06:51:05  PAGE    2
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000004 ED01                   MOV         #1,R13
+    00000006 430B                   JSR         @R3
+    00000008 6ED3                   MOV         R13,R14
+         SNAKE.c    50        Bdisp_AllClr_DDVRAM();
+    0000000A D241                   MOV.L       L436+4,R2  ; _Bdisp_AllClr_DDVRAM
+    0000000C 420B                   JSR         @R2
+    0000000E 0009                   NOP
+         SNAKE.c    51    
+         SNAKE.c    52        while(1)
+    00000010              L414:                             
+         SNAKE.c    53        {
+         SNAKE.c    54            switch(state)
+    00000010 D940                   MOV.L       L436+8,R9  ; _ShowText
+    00000012 60E3                   MOV         R14,R0
+    00000014 DA40                   MOV.L       L436+12,R10; _ShowMenu
+    00000016 8801                   CMP/EQ      #1,R0
+    00000018 890D                   BT          L395
+    0000001A 8802                   CMP/EQ      #2,R0
+    0000001C 891C                   BT          L397
+    0000001E 8803                   CMP/EQ      #3,R0
+    00000020 8924                   BT          L399
+    00000022 8804                   CMP/EQ      #4,R0
+    00000024 892D                   BT          L400
+    00000026 8805                   CMP/EQ      #5,R0
+    00000028 8941                   BT          L435
+    0000002A 8806                   CMP/EQ      #6,R0
+    0000002C 8937                   BT          L402
+    0000002E 8807                   CMP/EQ      #7,R0
+    00000030 893A                   BT          L403
+    00000032 AFED                   BRA         L414
+    00000034 0009                   NOP
+    00000036              L395:                            ; case label 
+         SNAKE.c    55            {
+         SNAKE.c    56                case STATE_MAINMENU:
+         SNAKE.c    57                    res = ShowMenu(0, "Start Game\nHelp\nAbout");
+    00000036 D939                   MOV.L       L436+16,R9 ; L370
+    00000038 6593                   MOV         R9,R5
+    0000003A 4A0B                   JSR         @R10
+    0000003C E400                   MOV         #0,R4
+    0000003E 6403                   MOV         R0,R4
+         SNAKE.c    58                    if(res == 0) state = STATE_DIFFSELECT;
+    00000040 2448                   TST         R4,R4
+    00000042 8919                   BT          L386
+         SNAKE.c    59                    else if(res == 1) state = STATE_HELP;
+    00000044 6043                   MOV         R4,R0
+    00000046 8801                   CMP/EQ      #1,R0
+    00000048 8B01                   BF          L418
+    0000004A A026                   BRA         L434
+    0000004C E406                   MOV         #6,R4
+    0000004E              L418:                             
+         SNAKE.c    60                    else if(res == 2) state = STATE_ABOUT;
+    0000004E 8802                   CMP/EQ      #2,R0
+    00000050 8BDE                   BF          L414
+    00000052 E407                   MOV         #7,R4
+         SNAKE.c    61                    break;
+    00000054 AFDC                   BRA         L414
+    00000056 6E43                   MOV         R4,R14
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 31-Dec-2020 06:51:05  PAGE    3
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000058              L397:                            ; case label 
+         SNAKE.c    62                case STATE_DIFFSELECT:
+         SNAKE.c    63                    difficulty = ShowMenu(1, "Easy\nMiddle\nHard\nExtreme");
+    00000058 DE31                   MOV.L       L436+20,R14; L371
+    0000005A 65E3                   MOV         R14,R5
+    0000005C 4A0B                   JSR         @R10
+    0000005E E401                   MOV         #1,R4
+    00000060 6C03                   MOV         R0,R12
+         SNAKE.c    64                    if(difficulty < 0) state = STATE_MAINMENU;
+    00000062 4C11                   CMP/PZ      R12
+    00000064 8B23                   BF          L435
+         SNAKE.c    65                    else state = STATE_MAPSELECT;
+    00000066 E403                   MOV         #3,R4
+         SNAKE.c    66                    break;
+    00000068 AFD2                   BRA         L414
+    0000006A 6E43                   MOV         R4,R14
+    0000006C              L399:                            ; case label 
+         SNAKE.c    67                case STATE_MAPSELECT:
+         SNAKE.c    68                    map = MapSelector();
+    0000006C DE2D                   MOV.L       L436+24,R14; _MapSelector
+    0000006E 4E0B                   JSR         @R14
+    00000070 0009                   NOP
+    00000072 6B03                   MOV         R0,R11
+         SNAKE.c    69                    if(map < 0) state = STATE_DIFFSELECT;
+    00000074 4B11                   CMP/PZ      R11
+    00000076 8901                   BT          L423
+    00000078              L386:
+    00000078 A001                   BRA         L433
+    0000007A E402                   MOV         #2,R4
+    0000007C              L423:                             
+         SNAKE.c    70                    else state = STATE_GAME;
+    0000007C E404                   MOV         #4,R4
+    0000007E              L433:                             
+         SNAKE.c    71                    break;
+    0000007E AFC7                   BRA         L414
+    00000080 6E43                   MOV         R4,R14
+    00000082              L400:                            ; case label 
+         SNAKE.c    72                case STATE_GAME:
+         SNAKE.c    73                    exitReason = RunGame(difficulty, &score, GetMap(map));
+    00000082 DA29                   MOV.L       L436+28,R10; _GetMap
+    00000084 DE29                   MOV.L       L436+32,R14; _RunGame
+    00000086 4A0B                   JSR         @R10
+    00000088 64B3                   MOV         R11,R4
+    0000008A 6603                   MOV         R0,R6
+    0000008C 65F3                   MOV         R15,R5
+    0000008E 4E0B                   JSR         @R14
+    00000090 64C3                   MOV         R12,R4
+         SNAKE.c    74                    if(exitReason == GAMEND_LOOSE) state = STATE_GAMEOVERSCREEN;
+    00000092 8802                   CMP/EQ      #2,R0
+    00000094 8F0B                   BF/S        L435
+    00000096 6403                   MOV         R0,R4
+    00000098 E405                   MOV         #5,R4
+    0000009A              L434:                             
+    0000009A AFB9                   BRA         L414
+    0000009C 6E43                   MOV         R4,R14
+    0000009E              L402:                            ; case label 
+         SNAKE.c    75                    else state = STATE_MAINMENU;
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 31-Dec-2020 06:51:05  PAGE    4
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+         SNAKE.c    76                    break;
+         SNAKE.c    77                case STATE_GAMEOVERSCREEN:
+         SNAKE.c    78                    //sprintf(text, "\nGAME OVER\nScore: %i", score);
+         SNAKE.c    79                    //ShowText(text);
+         SNAKE.c    80                    state = STATE_MAINMENU;
+         SNAKE.c    81                    break;
+         SNAKE.c    82                case STATE_HELP:
+         SNAKE.c    83                    ShowText(txtHelp);
+    0000009E DE24                   MOV.L       L436+36,R14; _txtHelp
+    000000A0 490B                   JSR         @R9
+    000000A2 64E2                   MOV.L       @R14,R4
+    000000A4 A003                   BRA         L435
+    000000A6 0009                   NOP
+    000000A8              L403:                            ; case label 
+         SNAKE.c    84                    state = STATE_MAINMENU;
+         SNAKE.c    85                    break;
+         SNAKE.c    86                case STATE_ABOUT:
+         SNAKE.c    87                    ShowText(txtAbout);
+    000000A8 DE22                   MOV.L       L436+40,R14; _txtAbout
+    000000AA 490B                   JSR         @R9
+    000000AC 64E2                   MOV.L       @R14,R4
+    000000AE              L435:                             
+    000000AE AFAF                   BRA         L414
+         SNAKE.c    88                    state = STATE_MAINMENU;
+    000000B0 6ED3                   MOV         R13,R14
+         SNAKE.c    89                    break;
+         SNAKE.c    90            }
+         SNAKE.c    91        }
+         SNAKE.c    92    
+         SNAKE.c    93        UninitDetector();
+         SNAKE.c    94        return 1;
+         SNAKE.c    95    }
+         SNAKE.c    96    
+         SNAKE.c    97    char* malloc_sec(int size)
+    000000B2              _malloc_sec:                     ; function: malloc_sec
+                                                           ; frame size=40
+    000000B2 2FE6                   MOV.L       R14,@-R15
+    000000B4 2FD6                   MOV.L       R13,@-R15
+    000000B6 4F22                   STS.L       PR,@-R15
+         SNAKE.c    98    {
+         SNAKE.c    99        char* ptr = (char*)malloc(size);
+    000000B8 D31F                   MOV.L       L436+44,R3 ; _malloc
+    000000BA 7FEC                   ADD         #-20,R15
+    000000BC 430B                   JSR         @R3
+    000000BE 1F41                   MOV.L       R4,@(4,R15)
+    000000C0 6E03                   MOV         R0,R14
+         SNAKE.c   100        if(ptr == NULL)
+    000000C2 2EE8                   TST         R14,R14
+    000000C4 8B1C                   BF          L428
+         SNAKE.c   101        {
+         SNAKE.c   102            unsigned int key;
+         SNAKE.c   103            char text[10];
+         SNAKE.c   104            PopUpWin(2);
+    000000C6 D31D                   MOV.L       L436+48,R3 ; _PopUpWin
+    000000C8 430B                   JSR         @R3
+    000000CA E402                   MOV         #2,R4
+         SNAKE.c   105            locate(3,3);
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 31-Dec-2020 06:51:05  PAGE    5
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000000CC D21C                   MOV.L       L436+52,R2 ; _locate
+    000000CE E503                   MOV         #3,R5
+    000000D0 420B                   JSR         @R2
+    000000D2 6453                   MOV         R5,R4
+         SNAKE.c   106            sprintf(text, "Allocating %iBytes", size);
+    000000D4 53F1                   MOV.L       @(4,R15),R3
+    000000D6 2F36                   MOV.L       R3,@-R15
+    000000D8 D21A                   MOV.L       L436+56,R2 ; L379
+    000000DA 2F26                   MOV.L       R2,@-R15
+    000000DC D31A                   MOV.L       L436+60,R3 ; _sprintf
+    000000DE 64F3                   MOV         R15,R4
+    000000E0 430B                   JSR         @R3
+    000000E2 7410                   ADD         #16,R4
+         SNAKE.c   107            locate(3,4);
+    000000E4 D216                   MOV.L       L436+52,R2 ; _locate
+    000000E6 7F08                   ADD         #8,R15
+    000000E8 E504                   MOV         #4,R5
+    000000EA 420B                   JSR         @R2
+    000000EC E403                   MOV         #3,R4
+         SNAKE.c   108            Print((uchar*)"Out of memory");
+    000000EE D417                   MOV.L       L436+64,R4 ; L380
+    000000F0 D317                   MOV.L       L436+68,R3 ; _Print
+    000000F2 430B                   JSR         @R3
+    000000F4 0009                   NOP
+    000000F6 DD17                   MOV.L       L436+72,R13; _GetKey
+         SNAKE.c   109            while(1) GetKey(&key);
+    000000F8              L430:                             
+    000000F8 4D0B                   JSR         @R13
+    000000FA 64F3                   MOV         R15,R4
+    000000FC AFFC                   BRA         L430
+    000000FE 0009                   NOP
+    00000100              L428:                             
+         SNAKE.c   110        }
+         SNAKE.c   111        return ptr;
+    00000100 60E3                   MOV         R14,R0
+         SNAKE.c   112    }
+    00000102 7F14                   ADD         #20,R15
+    00000104 4F26                   LDS.L       @R15+,PR
+    00000106 6DF6                   MOV.L       @R15+,R13
+    00000108 000B                   RTS
+    0000010A 6EF6                   MOV.L       @R15+,R14
+    0000010C              L436:                             
+    0000010C <00000000>             .DATA.L     _InitDetector
+    00000110 <00000000>             .DATA.L     _Bdisp_AllClr_DDVRAM
+    00000114 <00000000>             .DATA.L     _ShowText
+    00000118 <00000000>             .DATA.L     _ShowMenu
+    0000011C <00000000>             .DATA.L     L370
+    00000120 <00000000>             .DATA.L     L371
+    00000124 <00000000>             .DATA.L     _MapSelector
+    00000128 <00000000>             .DATA.L     _GetMap
+    0000012C <00000000>             .DATA.L     _RunGame
+    00000130 <00000000>             .DATA.L     _txtHelp
+    00000134 <00000000>             .DATA.L     _txtAbout
+    00000138 <00000000>             .DATA.L     _malloc
+    0000013C <00000000>             .DATA.L     _PopUpWin
+    00000140 <00000000>             .DATA.L     _locate
+    00000144 <00000000>             .DATA.L     L379
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 31-Dec-2020 06:51:05  PAGE    6
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000148 <00000000>             .DATA.L     _sprintf
+    0000014C <00000000>             .DATA.L     L380
+    00000150 <00000000>             .DATA.L     _Print
+    00000154 <00000000>             .DATA.L     _GetKey
+         SNAKE.c   113    
+         SNAKE.c   114    
+         SNAKE.c   115    //****************************************************************************
+         SNAKE.c   116    //**************                                              ****************
+         SNAKE.c   117    //**************                 Notice!                      ****************
+         SNAKE.c   118    //**************                                              ****************
+         SNAKE.c   119    //**************  Please do not change the following source.  ****************
+         SNAKE.c   120    //**************                                              ****************
+         SNAKE.c   121    //****************************************************************************
+         SNAKE.c   122    
+         SNAKE.c   123    
+         SNAKE.c   124    #pragma section _BR_Size
+         SNAKE.c   125    unsigned long BR_Size;
+         SNAKE.c   126    #pragma section
+         SNAKE.c   127    
+         SNAKE.c   128    
+         SNAKE.c   129    #pragma section _TOP
+         SNAKE.c   130    
+         SNAKE.c   131    //****************************************************************************
+         SNAKE.c   132    //  InitializeSystem
+         SNAKE.c   133    //
+         SNAKE.c   134    //  param   :   isAppli   : 1 = Application / 0 = eActivity
+         SNAKE.c   135    //              OptionNum : Option Number (only eActivity)
+         SNAKE.c   136    //
+         SNAKE.c   137    //  retval  :   1 = No error / 0 = Error
+         SNAKE.c   138    //
+         SNAKE.c   139    //****************************************************************************
+         SNAKE.c   140    int InitializeSystem(int isAppli, unsigned short OptionNum)
+P_T 00000000              _InitializeSystem:               ; function: InitializeSystem
+                                                           ; frame size=0
+         SNAKE.c   141    {
+         SNAKE.c   142        return INIT_ADDIN_APPLICATION(isAppli, OptionNum);
+    00000000 D301                   MOV.L       L437+2,R3  ; _INIT_ADDIN_APPLICATION
+    00000002 432B                   JMP         @R3
+    00000004 0009                   NOP
+    00000006              L437:                             
+    00000006 0000                   .DATA.W     0
+    00000008 <00000000>             .DATA.L     _INIT_ADDIN_APPLICATION
+         SNAKE.c   143    }
+         SNAKE.c   144    
+         SNAKE.c   145    #pragma section
+         SNAKE.c   146    
+D   00000000              _txtHelp:                        ; static: txtHelp
+    00000000 <00000000>             .DATA.L     L353
+    00000004              _txtAbout:                       ; static: txtAbout
+    00000004 <00000000>             .DATA.L     L355
+C   00000000              L370:
+    00000000 5374617274             .SDATA      "Start Game"
+             2047616D65   
+    0000000A 0A                     .DATA.B     H'0A
+    0000000B 48656C70               .SDATA      "Help"
+    0000000F 0A                     .DATA.B     H'0A
+    00000010 41626F7574             .SDATA      "About"
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 31-Dec-2020 06:51:05  PAGE    7
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000015 00                     .DATA.B     H'00
+    00000016 00000002               .RES.W      1
+    00000018              L371:
+    00000018 45617379               .SDATA      "Easy"
+    0000001C 0A                     .DATA.B     H'0A
+    0000001D 4D6964646C             .SDATA      "Middle"
+             65           
+    00000023 0A                     .DATA.B     H'0A
+    00000024 48617264               .SDATA      "Hard"
+    00000028 0A                     .DATA.B     H'0A
+    00000029 4578747265             .SDATA      "Extreme"
+             6D65         
+    00000030 00                     .DATA.B     H'00
+    00000031 00000001               .RES.B      1
+    00000032 00000002               .RES.W      1
+    00000034              L379:
+    00000034 416C6C6F63             .SDATA      "Allocating %iBytes"
+             6174696E67   
+             2025694279   
+             746573       
+    00000046 00                     .DATA.B     H'00
+    00000047 00000001               .RES.B      1
+    00000048              L380:
+    00000048 4F7574206F             .SDATA      "Out of memory"
+             66206D656D   
+             6F7279       
+    00000055 00                     .DATA.B     H'00
+    00000056 00000002               .RES.W      1
+    00000058              L353:
+    00000058 5B                     .SDATA      "["
+    00000059 E3                     .DATA.B     H'E3
+    0000005A 2C385D204D             .SDATA      ",8] Move up"
+             6F76652075   
+             70           
+    00000065 0A                     .DATA.B     H'0A
+    00000066 5B444F574E             .SDATA      "[DOWN, 2] Move down"
+             2C20325D20   
+             4D6F766520   
+             646F776E     
+    00000079 0A                     .DATA.B     H'0A
+    0000007A 5B                     .SDATA      "["
+    0000007B E4                     .DATA.B     H'E4
+    0000007C 2C20345D20             .SDATA      ", 4] Move left"
+             4D6F766520   
+             6C656674     
+    0000008A 0A                     .DATA.B     H'0A
+    0000008B 5B52494748             .SDATA      "[RIGHT, 6] Move right"
+             542C20365D   
+             204D6F7665   
+             2072696768   
+             74           
+    000000A0 0A                     .DATA.B     H'0A
+    000000A1 5B45584954             .SDATA      "[EXIT] Game Menu"
+             5D2047616D   
+             65204D656E   
+             75           
+    000000B1 00                     .DATA.B     H'00
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 31-Dec-2020 06:51:05  PAGE    8
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000000B2 00000002               .RES.W      1
+    000000B4              L355:
+    000000B4 536E616B65             .SDATA      "Snake for"
+             20666F72     
+    000000BD 0A                     .DATA.B     H'0A
+    000000BE 436173696F             .SDATA      "Casio fx-9860GII"
+             2066782D39   
+             3836304749   
+             49           
+    000000CE 0A0A                   .DATA.B     H'0A,H'0A
+    000000D0 6279204D61             .SDATA      "by Max Haag"
+             7820486161   
+             67           
+    000000DB 00                     .DATA.B     H'00
+B_B 00000000              _BR_Size:                        ; static: BR_Size
+    00000000 00000004               .RES.L      1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 31-Dec-2020 06:51:05  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:      146
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000158 Byte(s)
+PROGRAM  SECTION (P_BR_Size):                       00000000 Byte(s)
+PROGRAM  SECTION (P_TOP):                           0000000C Byte(s)
+CONSTANT SECTION (C):                               000000DC Byte(s)
+CONSTANT SECTION (C_BR_Size):                       00000000 Byte(s)
+CONSTANT SECTION (C_TOP):                           00000000 Byte(s)
+DATA     SECTION (D):                               00000008 Byte(s)
+DATA     SECTION (D_BR_Size):                       00000000 Byte(s)
+DATA     SECTION (D_TOP):                           00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+BSS      SECTION (B_BR_Size):                       00000004 Byte(s)
+BSS      SECTION (B_TOP):                           00000000 Byte(s)
+
+ TOTAL PROGRAM SIZE: 0000024C Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:           15
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           6
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            44
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\DOCUME~1\milky\LOCALS~1\Temp\hmk537.tmp 
+

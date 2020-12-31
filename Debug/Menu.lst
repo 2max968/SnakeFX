@@ -1,0 +1,863 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Dec-2020 08:11:35  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: E:\Entwicklung\Casio\SDK\Snake\Menu.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+          Menu.c     1    #include "Menu.h"
+          Menu.c     2    #include "fxlib.h"
+          Menu.c     3    #include <string.h>
+          Menu.c     4    
+          Menu.c     5    #define S_W 21
+          Menu.c     6    #define S_H 8
+          Menu.c     7    
+          Menu.c     8    #define uchar unsigned char
+          Menu.c     9    #define U(txt) ((uchar*)txt)
+          Menu.c    10    
+          Menu.c    11    #define TXT_FOOT (uchar*)"+MINES+++++++++++++++"
+          Menu.c    12    #define TXT_HEAD (uchar*)"+++++++++++++++++++++"
+          Menu.c    13    
+          Menu.c    14    void _drawBorder()
+P   00000000              __drawBorder:                    ; function: _drawBorder
+                                                           ; frame size=0
+          Menu.c    15    {
+          Menu.c    16            /*int i;
+          Menu.c    17            locate(1,1);
+          Menu.c    18            Print(TXT_HEAD);
+          Menu.c    19            for(i = 2; i < S_H; i++)
+          Menu.c    20            {
+          Menu.c    21                    locate(1,i); Print(U("+"));
+          Menu.c    22                    locate(S_W,i); Print(U("+"));
+          Menu.c    23            }
+          Menu.c    24            locate(1,S_H);
+          Menu.c    25            Print(TXT_FOOT);*/
+          Menu.c    26            PopUpWin(5);
+    00000000 D340                   MOV.L       L434+10,R3 ; _PopUpWin
+    00000002 432B                   JMP         @R3
+    00000004 E405                   MOV         #5,R4
+          Menu.c    27    }
+          Menu.c    28    
+          Menu.c    29    int ShowMenu(char canCanel, char* options)
+    00000006              _ShowMenu:                       ; function: ShowMenu
+                                                           ; frame size=12
+    00000006 4F22                   STS.L       PR,@-R15
+    00000008 7FF8                   ADD         #-8,R15
+    0000000A 2F40                   MOV.B       R4,@R15
+          Menu.c    30    {
+          Menu.c    31            _drawBorder();
+    0000000C BFF8                   BSR         __drawBorder
+    0000000E 1F51                   MOV.L       R5,@(4,R15)
+          Menu.c    32            ShowMenuNoBorder(canCanel, options);
+    00000010 55F1                   MOV.L       @(4,R15),R5
+    00000012 64F0                   MOV.B       @R15,R4
+    00000014 7F08                   ADD         #8,R15
+    00000016 4F26                   LDS.L       @R15+,PR
+          Menu.c    33    }
+          Menu.c    34    
+          Menu.c    35    int ShowMenuNoBorder(char canCancel, char* options)
+    00000018              _ShowMenuNoBorder:               ; function: ShowMenuNoBorder
+                                                           ; frame size=76
+                                                           ; used runtime library name:
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Dec-2020 08:11:35  PAGE    2
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+                                                           ; __slow_strcpy
+    00000018 2FE6                   MOV.L       R14,@-R15
+    0000001A 6043                   MOV         R4,R0
+          Menu.c    36    {
+          Menu.c    37            unsigned int key;
+          Menu.c    38            char selOption = 0;
+          Menu.c    39            char* entries[S_H-2];
+          Menu.c    40            int inpLen;
+          Menu.c    41            int i;
+          Menu.c    42            int entryCount;
+          Menu.c    43            char* txtCopy;
+          Menu.c    44            int res;
+          Menu.c    45            
+          Menu.c    46            //Bdisp_AllClr_DDVRAM();
+          Menu.c    47            inpLen = strlen(options);
+    0000001C D33A                   MOV.L       L434+14,R3 ; _strlen
+    0000001E 2FD6                   MOV.L       R13,@-R15
+    00000020 2FC6                   MOV.L       R12,@-R15
+    00000022 EC00                   MOV         #0,R12
+    00000024 2FB6                   MOV.L       R11,@-R15
+    00000026 6DC3                   MOV         R12,R13
+    00000028 2FA6                   MOV.L       R10,@-R15
+    0000002A 2F96                   MOV.L       R9,@-R15
+    0000002C 2F86                   MOV.L       R8,@-R15
+    0000002E 4F22                   STS.L       PR,@-R15
+    00000030 7FD4                   ADD         #-44,R15
+    00000032 80FC                   MOV.B       R0,@(12,R15)
+    00000034 1F52                   MOV.L       R5,@(8,R15)
+    00000036 430B                   JSR         @R3
+    00000038 6453                   MOV         R5,R4
+    0000003A 6E03                   MOV         R0,R14
+          Menu.c    48            txtCopy = (char*)malloc(inpLen+1);
+    0000003C D233                   MOV.L       L434+18,R2 ; _malloc
+    0000003E 6403                   MOV         R0,R4
+    00000040 420B                   JSR         @R2
+    00000042 7401                   ADD         #1,R4
+    00000044 1F01                   MOV.L       R0,@(4,R15)
+          Menu.c    49            strcpy(txtCopy, options);
+    00000046 D332                   MOV.L       L434+22,R3 ; __slow_strcpy
+    00000048 430B                   JSR         @R3
+    0000004A 51F2                   MOV.L       @(8,R15),R1
+          Menu.c    50            entries[0] = txtCopy;
+    0000004C 53F1                   MOV.L       @(4,R15),R3
+          Menu.c    51            for(i = 0, entryCount = 1; i < inpLen; i++)
+    0000004E 66D3                   MOV         R13,R6
+    00000050 69F3                   MOV         R15,R9
+    00000052 7914                   ADD         #20,R9
+    00000054 2932                   MOV.L       R3,@R9
+    00000056 EA01                   MOV         #1,R10
+    00000058 55F1                   MOV.L       @(4,R15),R5
+    0000005A 4E15                   CMP/PL      R14
+    0000005C 8F0F                   BF/S        L383
+    0000005E 6453                   MOV         R5,R4
+    00000060              L384:                             
+          Menu.c    52            {
+          Menu.c    53                    if(txtCopy[i] == '\n')
+    00000060 6050                   MOV.B       @R5,R0
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Dec-2020 08:11:35  PAGE    3
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000062 880A                   CMP/EQ      #10,R0
+    00000064 8F07                   BF/S        L385
+    00000066 7601                   ADD         #1,R6
+          Menu.c    54                    {
+          Menu.c    55                            entries[entryCount++] = &txtCopy[i+1];
+    00000068 60A3                   MOV         R10,R0
+    0000006A 7A01                   ADD         #1,R10
+    0000006C 4008                   SHLL2       R0
+    0000006E 6343                   MOV         R4,R3
+    00000070 7301                   ADD         #1,R3
+    00000072 0936                   MOV.L       R3,@(R0,R9)
+          Menu.c    56                            txtCopy[i] = '\0';
+    00000074 24C0                   MOV.B       R12,@R4
+    00000076              L385:                             
+    00000076 7401                   ADD         #1,R4
+    00000078 36E3                   CMP/GE      R14,R6
+    0000007A 8FF1                   BF/S        L384
+    0000007C 7501                   ADD         #1,R5
+    0000007E              L383:                             
+    0000007E 63A3                   MOV         R10,R3
+          Menu.c    57                    }
+          Menu.c    58            }
+          Menu.c    59            
+          Menu.c    60            res = 0;
+    00000080 1FC2                   MOV.L       R12,@(8,R15)
+    00000082 E010                   MOV         #16,R0
+    00000084 DB23                   MOV.L       L434+26,R11; _Print
+    00000086 73FF                   ADD         #-1,R3
+    00000088 0F34                   MOV.B       R3,@(R0,R15)
+          Menu.c    61            while(1)
+    0000008A              L387:                             
+          Menu.c    62            {
+          Menu.c    63                    // Draw
+          Menu.c    64                    //_drawBorder();
+          Menu.c    65                    for(i = 0; i < entryCount; i++)
+    0000008A 6EC3                   MOV         R12,R14
+    0000008C 4A15                   CMP/PL      R10
+    0000008E 8F14                   BF/S        L388
+    00000090 68DE                   EXTS.B      R13,R8
+    00000092              L389:                             
+          Menu.c    66                    {
+          Menu.c    67                            locate(3, i + 2);
+    00000092 65E3                   MOV         R14,R5
+    00000094 D220                   MOV.L       L434+30,R2 ; _locate
+    00000096 7502                   ADD         #2,R5
+    00000098 420B                   JSR         @R2
+    0000009A E403                   MOV         #3,R4
+          Menu.c    68                            if(i == selOption) Print(U(">"));
+    0000009C 3E80                   CMP/EQ      R8,R14
+    0000009E 8B02                   BF          L390
+    000000A0 D41E                   MOV.L       L434+34,R4 ; L343
+    000000A2 A001                   BRA         L433
+    000000A4 0009                   NOP
+    000000A6              L390:                             
+          Menu.c    69                            else Print(U(" "));
+    000000A6 D41E                   MOV.L       L434+38,R4 ; L344
+    000000A8              L433:                             
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Dec-2020 08:11:35  PAGE    4
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000000A8 4B0B                   JSR         @R11
+    000000AA 0009                   NOP
+          Menu.c    70                            Print((uchar*)entries[i]);
+    000000AC 60E3                   MOV         R14,R0
+    000000AE 4008                   SHLL2       R0
+    000000B0 4B0B                   JSR         @R11
+    000000B2 049E                   MOV.L       @(R0,R9),R4
+    000000B4 7E01                   ADD         #1,R14
+    000000B6 3EA3                   CMP/GE      R10,R14
+    000000B8 8BEB                   BF          L389
+    000000BA              L388:                             
+          Menu.c    71                    }
+          Menu.c    72                    
+          Menu.c    73                    // Action
+          Menu.c    74                    GetKey(&key);
+    000000BA D21A                   MOV.L       L434+42,R2 ; _GetKey
+    000000BC 420B                   JSR         @R2
+    000000BE 64F3                   MOV         R15,R4
+          Menu.c    75                    if(key == KEY_CTRL_EXIT && canCancel)
+    000000C0 931B                   MOV.W       L434,R3    ; H'7532
+    000000C2 62F2                   MOV.L       @R15,R2
+    000000C4 3230                   CMP/EQ      R3,R2
+    000000C6 8B05                   BF          L392
+    000000C8 84FC                   MOV.B       @(12,R15),R0
+    000000CA 2008                   TST         R0,R0
+    000000CC 8902                   BT          L392
+          Menu.c    76                    {
+          Menu.c    77                            res = -1;
+    000000CE E1FF                   MOV         #-1,R1
+          Menu.c    78                            break;
+    000000D0 A037                   BRA         L393
+    000000D2 1F12                   MOV.L       R1,@(8,R15)
+    000000D4              L392:                             
+          Menu.c    79                    }
+          Menu.c    80                    if(key == KEY_CTRL_EXE || key == KEY_CTRL_ALPHA)
+    000000D4 9212                   MOV.W       L434+2,R2  ; H'7534
+    000000D6 63F2                   MOV.L       @R15,R3
+    000000D8 3320                   CMP/EQ      R2,R3
+    000000DA 8903                   BT          L395
+    000000DC 930F                   MOV.W       L434+4,R3  ; H'7537
+    000000DE 61F2                   MOV.L       @R15,R1
+    000000E0 3130                   CMP/EQ      R3,R1
+    000000E2 8B01                   BF          L394
+    000000E4              L395:                             
+          Menu.c    81                    {
+          Menu.c    82                            res = selOption;
+          Menu.c    83                            break;
+    000000E4 A02D                   BRA         L393
+    000000E6 1F82                   MOV.L       R8,@(8,R15)
+    000000E8              L394:                             
+          Menu.c    84                    }
+          Menu.c    85                    switch(key)
+    000000E8 60F2                   MOV.L       @R15,R0
+    000000EA 9109                   MOV.W       L434+6,R1  ; H'7547
+    000000EC 3010                   CMP/EQ      R1,R0
+    000000EE 891B                   BT          L381
+    000000F0 9107                   MOV.W       L434+8,R1  ; H'7542
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Dec-2020 08:11:35  PAGE    5
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000000F2 3010                   CMP/EQ      R1,R0
+    000000F4 891E                   BT          L382
+    000000F6 AFC8                   BRA         L387
+    000000F8 0009                   NOP
+    000000FA              L434:                             
+    000000FA 7532                   .DATA.W     H'7532
+    000000FC 7534                   .DATA.W     H'7534
+    000000FE 7537                   .DATA.W     H'7537
+    00000100 7547                   .DATA.W     H'7547
+    00000102 7542                   .DATA.W     H'7542
+    00000104 <00000000>             .DATA.L     _PopUpWin
+    00000108 <00000000>             .DATA.L     _strlen
+    0000010C <00000000>             .DATA.L     _malloc
+    00000110 <00000000>             .DATA.L     __slow_strcpy
+    00000114 <00000000>             .DATA.L     _Print
+    00000118 <00000000>             .DATA.L     _locate
+    0000011C <00000000>             .DATA.L     L343
+    00000120 <00000000>             .DATA.L     L344
+    00000124 <00000000>             .DATA.L     _GetKey
+    00000128              L381:                            ; case label 
+          Menu.c    86                    {
+          Menu.c    87                            case KEY_CTRL_DOWN:
+          Menu.c    88                            selOption++;
+    00000128 7D01                   ADD         #1,R13
+          Menu.c    89                            if(selOption >= entryCount) selOption = 0;
+    0000012A 63DE                   EXTS.B      R13,R3
+    0000012C 33A3                   CMP/GE      R10,R3
+    0000012E 8BAC                   BF          L387
+          Menu.c    90                            break;
+    00000130 AFAB                   BRA         L387
+    00000132 6DC3                   MOV         R12,R13
+    00000134              L382:                            ; case label 
+          Menu.c    91                            case KEY_CTRL_UP:
+          Menu.c    92                            selOption--;
+    00000134 7DFF                   ADD         #-1,R13
+          Menu.c    93                            if(selOption < 0) selOption = entryCount - 1;
+    00000136 62DE                   EXTS.B      R13,R2
+    00000138 4211                   CMP/PZ      R2
+    0000013A 89A6                   BT          L387
+    0000013C E010                   MOV         #16,R0
+    0000013E AFA4                   BRA         L387
+    00000140 0DFC                   MOV.B       @(R0,R15),R13
+    00000142              L393:                             
+          Menu.c    94                            break;
+          Menu.c    95                    }
+          Menu.c    96            }
+          Menu.c    97            
+          Menu.c    98            free(txtCopy);
+    00000142 D340                   MOV.L       L435+4,R3  ; _free
+    00000144 430B                   JSR         @R3
+    00000146 54F1                   MOV.L       @(4,R15),R4
+          Menu.c    99            return res;
+    00000148 50F2                   MOV.L       @(8,R15),R0
+          Menu.c   100    }
+    0000014A 7F2C                   ADD         #44,R15
+    0000014C 4F26                   LDS.L       @R15+,PR
+    0000014E 68F6                   MOV.L       @R15+,R8
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Dec-2020 08:11:35  PAGE    6
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000150 69F6                   MOV.L       @R15+,R9
+    00000152 6AF6                   MOV.L       @R15+,R10
+    00000154 6BF6                   MOV.L       @R15+,R11
+    00000156 6CF6                   MOV.L       @R15+,R12
+    00000158 6DF6                   MOV.L       @R15+,R13
+    0000015A 000B                   RTS
+    0000015C 6EF6                   MOV.L       @R15+,R14
+          Menu.c   101    
+          Menu.c   102    int ShowText(char* text)
+    0000015E              _ShowText:                       ; function: ShowText
+                                                           ; frame size=40
+    0000015E 2FE6                   MOV.L       R14,@-R15
+    00000160 2FD6                   MOV.L       R13,@-R15
+          Menu.c   103    {
+          Menu.c   104            int i;
+          Menu.c   105            int line = 0;
+    00000162 EE00                   MOV         #0,R14
+    00000164 2FC6                   MOV.L       R12,@-R15
+          Menu.c   106            int col = 0;
+          Menu.c   107            uchar tmptxt[1];
+          Menu.c   108            unsigned int key;
+          Menu.c   109            
+          Menu.c   110            tmptxt[1] = 0;
+    00000166 60E3                   MOV         R14,R0
+    00000168 2FB6                   MOV.L       R11,@-R15
+    0000016A 6CE3                   MOV         R14,R12
+    0000016C 2FA6                   MOV.L       R10,@-R15
+    0000016E 6BE3                   MOV         R14,R11
+    00000170 2F96                   MOV.L       R9,@-R15
+    00000172 6943                   MOV         R4,R9
+    00000174 2F86                   MOV.L       R8,@-R15
+    00000176 4F22                   STS.L       PR,@-R15
+    00000178 7FF8                   ADD         #-8,R15
+    0000017A 6AF3                   MOV         R15,R10
+    0000017C 7A04                   ADD         #4,R10
+          Menu.c   111            _drawBorder();
+    0000017E BF3F                   BSR         __drawBorder
+    00000180 80A1                   MOV.B       R0,@(1,R10)
+          Menu.c   112            for(i = 0; text[i] != 0; i++)
+    00000182 6DC3                   MOV         R12,R13
+    00000184 A015                   BRA         L400
+    00000186 68A3                   MOV         R10,R8
+    00000188              L401:                             
+    00000188 64D3                   MOV         R13,R4
+    0000018A 349C                   ADD         R9,R4
+    0000018C 6040                   MOV.B       @R4,R0
+    0000018E 880A                   CMP/EQ      #10,R0
+    00000190 8B02                   BF          L402
+          Menu.c   113            {
+          Menu.c   114                    if(text[i] == '\n')
+          Menu.c   115                    {
+          Menu.c   116                            line++;
+    00000192 7B01                   ADD         #1,R11
+          Menu.c   117                            col = 0;
+    00000194 A00C                   BRA         L403
+    00000196 6CE3                   MOV         R14,R12
+    00000198              L402:                             
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Dec-2020 08:11:35  PAGE    7
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+          Menu.c   118                    }
+          Menu.c   119                    else
+          Menu.c   120                    {
+          Menu.c   121                            tmptxt[0] = text[i];
+    00000198 6340                   MOV.B       @R4,R3
+          Menu.c   122                            locate(3 + col,line + 2); Print(tmptxt);
+    0000019A 65B3                   MOV         R11,R5
+    0000019C D22A                   MOV.L       L435+8,R2  ; _locate
+    0000019E 64C3                   MOV         R12,R4
+    000001A0 2830                   MOV.B       R3,@R8
+    000001A2 7502                   ADD         #2,R5
+    000001A4 420B                   JSR         @R2
+    000001A6 7403                   ADD         #3,R4
+    000001A8 D328                   MOV.L       L435+12,R3 ; _Print
+    000001AA 430B                   JSR         @R3
+    000001AC 64A3                   MOV         R10,R4
+          Menu.c   123                            col++;
+    000001AE 7C01                   ADD         #1,R12
+    000001B0              L403:                             
+    000001B0 7D01                   ADD         #1,R13
+    000001B2              L400:                             
+    000001B2 60D3                   MOV         R13,R0
+    000001B4 039C                   MOV.B       @(R0,R9),R3
+    000001B6 2338                   TST         R3,R3
+    000001B8 8BE6                   BF          L401
+    000001BA DC25                   MOV.L       L435+16,R12; _GetKey
+    000001BC 9D40                   MOV.W       L435,R13   ; H'7532
+    000001BE 6ED3                   MOV         R13,R14
+    000001C0 7E02                   ADD         #2,R14
+          Menu.c   124                    }
+          Menu.c   125            }
+          Menu.c   126            
+          Menu.c   127            while(1)
+    000001C2              L405:                             
+          Menu.c   128            {
+          Menu.c   129                    GetKey(&key);
+    000001C2 4C0B                   JSR         @R12
+    000001C4 64F3                   MOV         R15,R4
+          Menu.c   130                    if(key == KEY_CTRL_EXE || key == KEY_CTRL_ALPHA)
+    000001C6 63F2                   MOV.L       @R15,R3
+    000001C8 33E0                   CMP/EQ      R14,R3
+    000001CA 8903                   BT          L407
+    000001CC 9139                   MOV.W       L435+2,R1  ; H'7537
+    000001CE 62F2                   MOV.L       @R15,R2
+    000001D0 3210                   CMP/EQ      R1,R2
+    000001D2 8B01                   BF          L406
+    000001D4              L407:                             
+          Menu.c   131                            return 1;
+    000001D4 A004                   BRA         L408
+    000001D6 E001                   MOV         #1,R0
+    000001D8              L406:                             
+          Menu.c   132                    else if(key == KEY_CTRL_EXIT)
+    000001D8 63F2                   MOV.L       @R15,R3
+    000001DA 33D0                   CMP/EQ      R13,R3
+    000001DC 8BF1                   BF          L405
+          Menu.c   133                            return 0;
+    000001DE E000                   MOV         #0,R0
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Dec-2020 08:11:35  PAGE    8
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000001E0              L408:                             
+          Menu.c   134            }
+          Menu.c   135    }
+    000001E0 7F08                   ADD         #8,R15
+    000001E2 4F26                   LDS.L       @R15+,PR
+    000001E4 68F6                   MOV.L       @R15+,R8
+    000001E6 69F6                   MOV.L       @R15+,R9
+    000001E8 6AF6                   MOV.L       @R15+,R10
+    000001EA 6BF6                   MOV.L       @R15+,R11
+    000001EC 6CF6                   MOV.L       @R15+,R12
+    000001EE 6DF6                   MOV.L       @R15+,R13
+    000001F0 000B                   RTS
+    000001F2 6EF6                   MOV.L       @R15+,R14
+          Menu.c   136    
+          Menu.c   137    uchar ReadInt(int *value, int digitNum, int column, int row)
+    000001F4              _ReadInt:                        ; function: ReadInt
+                                                           ; frame size=64
+    000001F4 2FE6                   MOV.L       R14,@-R15
+    000001F6 2FD6                   MOV.L       R13,@-R15
+    000001F8 2FC6                   MOV.L       R12,@-R15
+          Menu.c   138    {
+          Menu.c   139            unsigned int key;
+          Menu.c   140            uchar digit;
+          Menu.c   141            char input[10];
+          Menu.c   142            int i;
+          Menu.c   143            uchar tmp[2];
+          Menu.c   144            uchar result;
+          Menu.c   145    
+          Menu.c   146            tmp[1] = 0;
+    000001FA EC00                   MOV         #0,R12
+    000001FC 2FB6                   MOV.L       R11,@-R15
+    000001FE 60C3                   MOV         R12,R0
+    00000200 2FA6                   MOV.L       R10,@-R15
+          Menu.c   147            digit = 0;
+    00000202 6E03                   MOV         R0,R14
+    00000204 2F96                   MOV.L       R9,@-R15
+    00000206 6953                   MOV         R5,R9
+    00000208 2F86                   MOV.L       R8,@-R15
+    0000020A 4F22                   STS.L       PR,@-R15
+    0000020C 7FE0                   ADD         #-32,R15
+    0000020E 68F3                   MOV         R15,R8
+    00000210 1F41                   MOV.L       R4,@(4,R15)
+    00000212 6AF3                   MOV         R15,R10
+    00000214 1F63                   MOV.L       R6,@(12,R15)
+    00000216 7810                   ADD         #16,R8
+    00000218 1F72                   MOV.L       R7,@(8,R15)
+    0000021A 7A14                   ADD         #20,R10
+    0000021C 8081                   MOV.B       R0,@(1,R8)
+    0000021E 6B83                   MOV         R8,R11
+          Menu.c   148    
+          Menu.c   149            while(1)
+    00000220              L412:                             
+          Menu.c   150            {
+          Menu.c   151                    locate(column, row);
+    00000220 55F2                   MOV.L       @(8,R15),R5
+    00000222 D309                   MOV.L       L435+8,R3  ; _locate
+    00000224 430B                   JSR         @R3
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Dec-2020 08:11:35  PAGE    9
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000226 54F3                   MOV.L       @(12,R15),R4
+          Menu.c   152                    for(i = 0; i < digitNum; i++)
+    00000228 4915                   CMP/PL      R9
+    0000022A 8F21                   BF/S        L413
+    0000022C 6DC3                   MOV         R12,R13
+    0000022E              L414:                             
+          Menu.c   153                    {
+          Menu.c   154                            if(i < digit)
+    0000022E 63EC                   EXTU.B      R14,R3
+    00000230 3D33                   CMP/GE      R3,R13
+    00000232 890F                   BT          L415
+          Menu.c   155                                    tmp[0] = input[i] + '0';
+    00000234 60D3                   MOV         R13,R0
+    00000236 03AC                   MOV.B       @(R0,R10),R3
+    00000238 7330                   ADD         #48,R3
+    0000023A 2B30                   MOV.B       R3,@R11
+    0000023C A012                   BRA         L416
+    0000023E 0009                   NOP
+    00000240              L435:                             
+    00000240 7532                   .DATA.W     H'7532
+    00000242 7537                   .DATA.W     H'7537
+    00000244 <00000000>             .DATA.L     _free
+    00000248 <00000000>             .DATA.L     _locate
+    0000024C <00000000>             .DATA.L     _Print
+    00000250 <00000000>             .DATA.L     _GetKey
+    00000254              L415:                             
+          Menu.c   156                            else if(i == digit)
+    00000254 62EC                   EXTU.B      R14,R2
+    00000256 3D20                   CMP/EQ      R2,R13
+    00000258 8B02                   BF          L417
+          Menu.c   157                                    tmp[0] = '_';
+    0000025A E25F                   MOV         #95,R2
+    0000025C A002                   BRA         L416
+    0000025E 2B20                   MOV.B       R2,@R11
+    00000260              L417:                             
+          Menu.c   158                            else
+          Menu.c   159                                    tmp[0] = ' ';
+    00000260 E120                   MOV         #32,R1
+    00000262 2B10                   MOV.B       R1,@R11
+    00000264              L416:                             
+          Menu.c   160                            
+          Menu.c   161                            Print(tmp);
+    00000264 D32C                   MOV.L       L436+8,R3  ; _Print
+    00000266 430B                   JSR         @R3
+    00000268 6483                   MOV         R8,R4
+    0000026A 7D01                   ADD         #1,R13
+    0000026C 3D93                   CMP/GE      R9,R13
+    0000026E 8BDE                   BF          L414
+    00000270              L413:                             
+          Menu.c   162                    }
+          Menu.c   163                    GetKey(&key);
+    00000270 D32A                   MOV.L       L436+12,R3 ; _GetKey
+    00000272 430B                   JSR         @R3
+    00000274 64F3                   MOV         R15,R4
+          Menu.c   164    
+          Menu.c   165                    if(key >= KEY_CHAR_0 && key <= KEY_CHAR_9)
+    00000276 E230                   MOV         #48,R2
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Dec-2020 08:11:35  PAGE   10
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000278 63F2                   MOV.L       @R15,R3
+    0000027A 3322                   CMP/HS      R2,R3
+    0000027C 8B0D                   BF          L419
+    0000027E E339                   MOV         #57,R3
+    00000280 61F2                   MOV.L       @R15,R1
+    00000282 3136                   CMP/HI      R3,R1
+    00000284 8909                   BT          L419
+          Menu.c   166                    {
+          Menu.c   167                            if(digit < digitNum)
+    00000286 62EC                   EXTU.B      R14,R2
+    00000288 3293                   CMP/GE      R9,R2
+    0000028A 89C9                   BT          L412
+          Menu.c   168                            {
+          Menu.c   169                                    input[digit] = key - KEY_CHAR_0;
+    0000028C 63EC                   EXTU.B      R14,R3
+    0000028E 6033                   MOV         R3,R0
+    00000290 63F2                   MOV.L       @R15,R3
+    00000292 73D0                   ADD         #-48,R3
+    00000294 0A34                   MOV.B       R3,@(R0,R10)
+          Menu.c   170                                    digit++;
+    00000296 AFC3                   BRA         L412
+    00000298 7E01                   ADD         #1,R14
+    0000029A              L419:                             
+          Menu.c   171                            }
+          Menu.c   172                    }
+          Menu.c   173                    else if(key == KEY_CTRL_DEL)
+    0000029A 9339                   MOV.W       L436,R3    ; H'7549
+    0000029C 62F2                   MOV.L       @R15,R2
+    0000029E 3230                   CMP/EQ      R3,R2
+    000002A0 8B04                   BF          L422
+          Menu.c   174                    {
+          Menu.c   175                            if(digit > 0)
+    000002A2 62EC                   EXTU.B      R14,R2
+    000002A4 4215                   CMP/PL      R2
+    000002A6 8BBB                   BF          L412
+          Menu.c   176                                    digit--;
+    000002A8 AFBA                   BRA         L412
+    000002AA 7EFF                   ADD         #-1,R14
+    000002AC              L422:                             
+          Menu.c   177                    }
+          Menu.c   178                    else if(key == KEY_CTRL_EXE)
+    000002AC 9231                   MOV.W       L436+2,R2  ; H'7534
+    000002AE 61F2                   MOV.L       @R15,R1
+    000002B0 3120                   CMP/EQ      R2,R1
+    000002B2 8B01                   BF          L425
+          Menu.c   179                    {
+          Menu.c   180                            result = 1;
+          Menu.c   181                            break;
+    000002B4 A005                   BRA         L426
+    000002B6 E401                   MOV         #1,R4
+    000002B8              L425:                             
+          Menu.c   182                    }
+          Menu.c   183                    else if(key == KEY_CTRL_EXIT)
+    000002B8 912C                   MOV.W       L436+4,R1  ; H'7532
+    000002BA 60F2                   MOV.L       @R15,R0
+    000002BC 3010                   CMP/EQ      R1,R0
+    000002BE 8BAF                   BF          L412
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Dec-2020 08:11:35  PAGE   11
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+          Menu.c   184                    {
+          Menu.c   185                            result = 0;
+    000002C0 64C3                   MOV         R12,R4
+          Menu.c   186                            break;
+    000002C2              L426:                             
+          Menu.c   187                    }
+          Menu.c   188            }
+          Menu.c   189    
+          Menu.c   190            if(!result) return 0;
+    000002C2 644C                   EXTU.B      R4,R4
+    000002C4 2448                   TST         R4,R4
+    000002C6 8B01                   BF          L429
+    000002C8 A018                   BRA         L430
+    000002CA E000                   MOV         #0,R0
+    000002CC              L429:                             
+          Menu.c   191            *value = 0;
+    000002CC 52F1                   MOV.L       @(4,R15),R2
+          Menu.c   192            for(i = 0; i < digit; i++)
+    000002CE 64C3                   MOV         R12,R4
+    000002D0 22C2                   MOV.L       R12,@R2
+    000002D2 E600                   MOV         #0,R6
+    000002D4 65EC                   EXTU.B      R14,R5
+    000002D6 4515                   CMP/PL      R5
+    000002D8 8F0F                   BF/S        L431
+    000002DA 36AC                   ADD         R10,R6
+    000002DC              L432:                             
+          Menu.c   193            {
+          Menu.c   194                    *value *= 10;
+    000002DC 52F1                   MOV.L       @(4,R15),R2
+    000002DE 7401                   ADD         #1,R4
+    000002E0 6322                   MOV.L       @R2,R3
+    000002E2 6133                   MOV         R3,R1
+    000002E4 4308                   SHLL2       R3
+    000002E6 331C                   ADD         R1,R3
+    000002E8 4300                   SHLL        R3
+    000002EA 3453                   CMP/GE      R5,R4
+    000002EC 2232                   MOV.L       R3,@R2
+          Menu.c   195                    *value += input[i];
+    000002EE 52F1                   MOV.L       @(4,R15),R2
+    000002F0 6364                   MOV.B       @R6+,R3
+    000002F2 6122                   MOV.L       @R2,R1
+    000002F4 313C                   ADD         R3,R1
+    000002F6 8FF1                   BF/S        L432
+    000002F8 2212                   MOV.L       R1,@R2
+    000002FA              L431:                             
+          Menu.c   196            }
+          Menu.c   197            return 1;
+    000002FA E001                   MOV         #1,R0
+          Menu.c   198    }
+    000002FC              L430:                             
+    000002FC 7F20                   ADD         #32,R15
+    000002FE 4F26                   LDS.L       @R15+,PR
+    00000300 68F6                   MOV.L       @R15+,R8
+    00000302 69F6                   MOV.L       @R15+,R9
+    00000304 6AF6                   MOV.L       @R15+,R10
+    00000306 6BF6                   MOV.L       @R15+,R11
+    00000308 6CF6                   MOV.L       @R15+,R12
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Dec-2020 08:11:35  PAGE   12
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000030A 6DF6                   MOV.L       @R15+,R13
+    0000030C 000B                   RTS
+    0000030E 6EF6                   MOV.L       @R15+,R14
+    00000310              L436:                             
+    00000310 7549                   .DATA.W     H'7549
+    00000312 7534                   .DATA.W     H'7534
+    00000314 7532                   .DATA.W     H'7532
+    00000316 0000                   .DATA.W     0
+    00000318 <00000000>             .DATA.L     _Print
+    0000031C <00000000>             .DATA.L     _GetKey
+C   00000000              L343:
+    00000000 3E                     .SDATA      ">"
+    00000001 00                     .DATA.B     H'00
+    00000002 00000002               .RES.W      1
+    00000004              L344:
+    00000004 20                     .SDATA      " "
+    00000005 00                     .DATA.B     H'00
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Dec-2020 08:11:35  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:      198
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000320 Byte(s)
+CONSTANT SECTION (C):                               00000006 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+ TOTAL PROGRAM SIZE: 00000326 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            8
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           5
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            54
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\DOCUME~1\milky\LOCALS~1\Temp\hmk4C9.tmp 
+
