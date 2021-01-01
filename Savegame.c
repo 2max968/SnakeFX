@@ -4,23 +4,18 @@
 #include "Menu.h"
 #include <stdio.h>
 
-FONTCHARACTER filename[] = {0x71,0x71,'f','l','s','0',0x71, 's', 'n', 'a', 'k', 'e', '.', 'd', 'a', 't'};
+FONTCHARACTER filename[] = {'\\','\\','f','l','s','0','\\', 's', 'n', 'a', 'k', 'e', '.', 'd', 'a', 't', 0};
 
 void SaveScores(const savegame_t *savegame)
 {
     int fileHandle, error;
-    return;
     fileHandle = Bfile_CreateFile(filename, sizeof(savegame_t));
 
-    if(fileHandle < 0)
+    if(fileHandle >= 0)
     {
-        char text[50];
-        sprintf(text, "Error saving scores\nCreate File: %i", fileHandle);
-        ShowText(text);
-        return;
+    	Bfile_CloseFile(fileHandle);
     }
 
-    Bfile_CloseFile(fileHandle);
     fileHandle = Bfile_OpenFile(filename, _OPENMODE_WRITE);
 
     if(fileHandle < 0)
@@ -47,7 +42,6 @@ void SaveScores(const savegame_t *savegame)
 void LoadScores(savegame_t *savegame)
 {
     int fileHandle, fileSize;
-    return;
     fileHandle = Bfile_OpenFile(filename, _OPENMODE_READ);
     if(fileHandle < 0) return;
 

@@ -1,4 +1,4 @@
-SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 01-Jan-2021 02:54:38  PAGE    1
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 01-Jan-2021 05:47:33  PAGE    1
 
 ************ OBJECT LISTING ************
 
@@ -12,141 +12,269 @@ SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
       Savegame.c     4    #include "Menu.h"
       Savegame.c     5    #include <stdio.h>
       Savegame.c     6    
-      Savegame.c     7    FONTCHARACTER filename[] = {0x71,0x71,'f','l','s','0',0x71, 's', 'n', 'a', 'k', 'e', '.', 'd', 'a', 't'};
+      Savegame.c     7    FONTCHARACTER filename[] = {'\\','\\','f','l','s','0','\\', 's', 'n', 'a', 'k', 'e', '.', 'd', 'a', 't', 0
+                         +};
       Savegame.c     8    
       Savegame.c     9    void SaveScores(const savegame_t *savegame)
 P   00000000              _SaveScores:                     ; function: SaveScores
-                                                           ; frame size=52
-    00000000 7FCC                   ADD         #-52,R15
+                                                           ; frame size=72
+    00000000 2FE6                   MOV.L       R14,@-R15
+    00000002 4F22                   STS.L       PR,@-R15
       Savegame.c    10    {
       Savegame.c    11        int fileHandle, error;
-      Savegame.c    12        return;
-      Savegame.c    13        fileHandle = Bfile_CreateFile(filename, sizeof(savegame_t));
-      Savegame.c    14    
-      Savegame.c    15        if(fileHandle < 0)
-      Savegame.c    16        {
-      Savegame.c    17            char text[50];
-      Savegame.c    18            sprintf(text, "Error saving scores\nCreate File: %i", fileHandle);
-      Savegame.c    19            ShowText(text);
-      Savegame.c    20            return;
-      Savegame.c    21        }
-      Savegame.c    22    
-      Savegame.c    23        Bfile_CloseFile(fileHandle);
-      Savegame.c    24        fileHandle = Bfile_OpenFile(filename, _OPENMODE_WRITE);
-      Savegame.c    25    
-      Savegame.c    26        if(fileHandle < 0)
-      Savegame.c    27        {
-      Savegame.c    28            char text[50];
-      Savegame.c    29            sprintf(text, "Error saving scores\n0pen File: %i", fileHandle);
-      Savegame.c    30            ShowText(text);
-      Savegame.c    31            return;
-      Savegame.c    32        }
-      Savegame.c    33    
-      Savegame.c    34        error = Bfile_WriteFile(fileHandle, savegame, sizeof(savegame_t));
-      Savegame.c    35    
-      Savegame.c    36        if(error < 0)
-      Savegame.c    37        {
-      Savegame.c    38            char text[50];
-      Savegame.c    39            sprintf(text, "Error saving scores\nWriting File File: %i", error);
-      Savegame.c    40            ShowText(text);
-      Savegame.c    41            return;
-      Savegame.c    42        }
-      Savegame.c    43    
-      Savegame.c    44        Bfile_CloseFile(fileHandle);
-      Savegame.c    45    }
-    00000002 000B                   RTS
-    00000004 7F34                   ADD         #52,R15
-      Savegame.c    46    
-      Savegame.c    47    void LoadScores(savegame_t *savegame)
-    00000006              _LoadScores:                     ; function: LoadScores
-                                                           ; frame size=0
+      Savegame.c    12        fileHandle = Bfile_CreateFile(filename, sizeof(savegame_t));
+    00000004 9569                   MOV.W       L374,R5    ; H'00C0
+    00000006 7FC8                   ADD         #-56,R15
+    00000008 D335                   MOV.L       L374+6,R3  ; _Bfile_CreateFile
+    0000000A 2F42                   MOV.L       R4,@R15
+    0000000C D433                   MOV.L       L374+2,R4  ; _filename
+    0000000E 430B                   JSR         @R3
+    00000010 0009                   NOP
+    00000012 6403                   MOV         R0,R4
+      Savegame.c    13    
+      Savegame.c    14        if(fileHandle >= 0)
+    00000014 4411                   CMP/PZ      R4
+    00000016 8B02                   BF          L367
+      Savegame.c    15        {
+      Savegame.c    16            Bfile_CloseFile(fileHandle);
+    00000018 D332                   MOV.L       L374+10,R3 ; _Bfile_CloseFile
+    0000001A 430B                   JSR         @R3
+    0000001C 0009                   NOP
+    0000001E              L367:                             
+      Savegame.c    17        }
+      Savegame.c    18    
+      Savegame.c    19        fileHandle = Bfile_OpenFile(filename, _OPENMODE_WRITE);
+    0000001E D42F                   MOV.L       L374+2,R4  ; _filename
+    00000020 D231                   MOV.L       L374+14,R2 ; _Bfile_OpenFile
+    00000022 420B                   JSR         @R2
+    00000024 E502                   MOV         #2,R5
+    00000026 6E03                   MOV         R0,R14
+      Savegame.c    20    
+      Savegame.c    21        if(fileHandle < 0)
+    00000028 4E11                   CMP/PZ      R14
+    0000002A 890F                   BT          L368
+      Savegame.c    22        {
+      Savegame.c    23            char text[50];
+      Savegame.c    24            sprintf(text, "Error saving scores\n0pen File: %i", fileHandle);
+    0000002C 2FE6                   MOV.L       R14,@-R15
+    0000002E D22F                   MOV.L       L374+18,R2 ; L352
+    00000030 D32F                   MOV.L       L374+22,R3 ; _sprintf
+    00000032 2F26                   MOV.L       R2,@-R15
 
 
 
 
-SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 01-Jan-2021 02:54:38  PAGE    2
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 01-Jan-2021 05:47:33  PAGE    2
 
 
 SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
 
-      Savegame.c    48    {
-      Savegame.c    49        int fileHandle, fileSize;
-      Savegame.c    50        return;
-      Savegame.c    51        fileHandle = Bfile_OpenFile(filename, _OPENMODE_READ);
-      Savegame.c    52        if(fileHandle < 0) return;
-      Savegame.c    53    
-      Savegame.c    54        fileSize = Bfile_GetFileSize(fileHandle);
-      Savegame.c    55        if(fileSize != sizeof(savegame_t))
-      Savegame.c    56        {
-      Savegame.c    57            ShowText("The savegame is\ncorrupted.");
-      Savegame.c    58            Bfile_CloseFile(fileHandle);
-      Savegame.c    59            return;
-      Savegame.c    60        }
-      Savegame.c    61    
-      Savegame.c    62        Bfile_ReadFile(fileHandle, savegame, sizeof(savegame_t), 0);
-      Savegame.c    63        Bfile_CloseFile(fileHandle);
-      Savegame.c    64    }
-    00000006 000B                   RTS
-    00000008 0009                   NOP
+    00000034 64F3                   MOV         R15,R4
+    00000036 430B                   JSR         @R3
+    00000038 740C                   ADD         #12,R4
+    0000003A 7F08                   ADD         #8,R15
+      Savegame.c    25            ShowText(text);
+    0000003C D22D                   MOV.L       L374+26,R2 ; _ShowText
+    0000003E 64F3                   MOV         R15,R4
+    00000040 420B                   JSR         @R2
+    00000042 7404                   ADD         #4,R4
+      Savegame.c    26            return;
+    00000044 7F38                   ADD         #56,R15
+    00000046 4F26                   LDS.L       @R15+,PR
+    00000048 000B                   RTS
+    0000004A 6EF6                   MOV.L       @R15+,R14
+    0000004C              L368:                             
+      Savegame.c    27        }
+      Savegame.c    28    
+      Savegame.c    29        error = Bfile_WriteFile(fileHandle, savegame, sizeof(savegame_t));
+    0000004C 9645                   MOV.W       L374,R6    ; H'00C0
+    0000004E 65F2                   MOV.L       @R15,R5
+    00000050 D329                   MOV.L       L374+30,R3 ; _Bfile_WriteFile
+    00000052 430B                   JSR         @R3
+    00000054 64E3                   MOV         R14,R4
+    00000056 6403                   MOV         R0,R4
+      Savegame.c    30    
+      Savegame.c    31        if(error < 0)
+    00000058 4411                   CMP/PZ      R4
+    0000005A 890F                   BT          L370
+      Savegame.c    32        {
+      Savegame.c    33            char text[50];
+      Savegame.c    34            sprintf(text, "Error saving scores\nWriting File File: %i", error);
+    0000005C 2F46                   MOV.L       R4,@-R15
+    0000005E D327                   MOV.L       L374+34,R3 ; L355
+    00000060 D223                   MOV.L       L374+22,R2 ; _sprintf
+    00000062 2F36                   MOV.L       R3,@-R15
+    00000064 64F3                   MOV         R15,R4
+    00000066 420B                   JSR         @R2
+    00000068 740C                   ADD         #12,R4
+    0000006A 7F08                   ADD         #8,R15
+      Savegame.c    35            ShowText(text);
+    0000006C D321                   MOV.L       L374+26,R3 ; _ShowText
+    0000006E 64F3                   MOV         R15,R4
+    00000070 430B                   JSR         @R3
+    00000072 7404                   ADD         #4,R4
+      Savegame.c    36            return;
+    00000074 7F38                   ADD         #56,R15
+    00000076 4F26                   LDS.L       @R15+,PR
+    00000078 000B                   RTS
+    0000007A 6EF6                   MOV.L       @R15+,R14
+    0000007C              L370:                             
+      Savegame.c    37        }
+      Savegame.c    38    
+      Savegame.c    39        Bfile_CloseFile(fileHandle);
+    0000007C D219                   MOV.L       L374+10,R2 ; _Bfile_CloseFile
+    0000007E 420B                   JSR         @R2
+    00000080 64E3                   MOV         R14,R4
+      Savegame.c    40    }
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 01-Jan-2021 05:47:33  PAGE    3
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000082              L369:                             
+    00000082 7F38                   ADD         #56,R15
+    00000084 4F26                   LDS.L       @R15+,PR
+    00000086 000B                   RTS
+    00000088 6EF6                   MOV.L       @R15+,R14
+      Savegame.c    41    
+      Savegame.c    42    void LoadScores(savegame_t *savegame)
+    0000008A              _LoadScores:                     ; function: LoadScores
+                                                           ; frame size=12
+    0000008A 2FE6                   MOV.L       R14,@-R15
+    0000008C 4F22                   STS.L       PR,@-R15
+    0000008E 7FFC                   ADD         #-4,R15
+      Savegame.c    43    {
+      Savegame.c    44        int fileHandle, fileSize;
+      Savegame.c    45        fileHandle = Bfile_OpenFile(filename, _OPENMODE_READ);
+    00000090 D315                   MOV.L       L374+14,R3 ; _Bfile_OpenFile
+    00000092 2F42                   MOV.L       R4,@R15
+    00000094 D411                   MOV.L       L374+2,R4  ; _filename
+    00000096 430B                   JSR         @R3
+    00000098 E501                   MOV         #1,R5
+    0000009A 6E03                   MOV         R0,R14
+      Savegame.c    46        if(fileHandle < 0) return;
+    0000009C 4E11                   CMP/PZ      R14
+    0000009E 8B18                   BF          L372
+      Savegame.c    47    
+      Savegame.c    48        fileSize = Bfile_GetFileSize(fileHandle);
+    000000A0 D317                   MOV.L       L374+38,R3 ; _Bfile_GetFileSize
+    000000A2 430B                   JSR         @R3
+    000000A4 64E3                   MOV         R14,R4
+    000000A6 6403                   MOV         R0,R4
+      Savegame.c    49        if(fileSize != sizeof(savegame_t))
+    000000A8 9217                   MOV.W       L374,R2    ; H'00C0
+    000000AA 3420                   CMP/EQ      R2,R4
+    000000AC 8905                   BT          L373
+      Savegame.c    50        {
+      Savegame.c    51            ShowText("The savegame is\ncorrupted.");
+    000000AE D415                   MOV.L       L374+42,R4 ; L361
+    000000B0 D110                   MOV.L       L374+26,R1 ; _ShowText
+    000000B2 410B                   JSR         @R1
+    000000B4 0009                   NOP
+    000000B6 A006                   BRA         L362
+    000000B8 0009                   NOP
+    000000BA              L373:                             
+      Savegame.c    52            Bfile_CloseFile(fileHandle);
+      Savegame.c    53            return;
+      Savegame.c    54        }
+      Savegame.c    55    
+      Savegame.c    56        Bfile_ReadFile(fileHandle, savegame, sizeof(savegame_t), 0);
+    000000BA E700                   MOV         #0,R7
+    000000BC 960D                   MOV.W       L374,R6    ; H'00C0
+    000000BE 65F2                   MOV.L       @R15,R5
+    000000C0 D311                   MOV.L       L374+46,R3 ; _Bfile_ReadFile
+    000000C2 430B                   JSR         @R3
+    000000C4 64E3                   MOV         R14,R4
+    000000C6              L362:
+      Savegame.c    57        Bfile_CloseFile(fileHandle);
+    000000C6 64E3                   MOV         R14,R4
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 01-Jan-2021 05:47:33  PAGE    4
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000000C8 D206                   MOV.L       L374+10,R2 ; _Bfile_CloseFile
+    000000CA 7F04                   ADD         #4,R15
+    000000CC 4F26                   LDS.L       @R15+,PR
+    000000CE 422B                   JMP         @R2
+    000000D0 6EF6                   MOV.L       @R15+,R14
+    000000D2              L372:                             
+      Savegame.c    58    }
+    000000D2 7F04                   ADD         #4,R15
+    000000D4 4F26                   LDS.L       @R15+,PR
+    000000D6 000B                   RTS
+    000000D8 6EF6                   MOV.L       @R15+,R14
+    000000DA              L374:                             
+    000000DA 00C0                   .DATA.W     H'00C0
+    000000DC <00000000>             .DATA.L     _filename
+    000000E0 <00000000>             .DATA.L     _Bfile_CreateFile
+    000000E4 <00000000>             .DATA.L     _Bfile_CloseFile
+    000000E8 <00000000>             .DATA.L     _Bfile_OpenFile
+    000000EC <00000000>             .DATA.L     L352
+    000000F0 <00000000>             .DATA.L     _sprintf
+    000000F4 <00000000>             .DATA.L     _ShowText
+    000000F8 <00000000>             .DATA.L     _Bfile_WriteFile
+    000000FC <00000000>             .DATA.L     L355
+    00000100 <00000000>             .DATA.L     _Bfile_GetFileSize
+    00000104 <00000000>             .DATA.L     L361
+    00000108 <00000000>             .DATA.L     _Bfile_ReadFile
 D   00000000              _filename:                       ; static: filename
-    00000000 0071007100             .DATA.W     H'0071,H'0071,H'0066,H'006C,H'0073,H'0030,H'0071,H'0073,H'006E,H'0061,H'006B,H'0065,
-             66006C0073 +                       H'002E,H'0064,H'0061,H'0074
-             0030007100   
+    00000000 005C005C00             .DATA.W     H'005C,H'005C,H'0066,H'006C,H'0073,H'0030,H'005C,H'0073,H'006E,H'0061,H'006B,H'0065,
+             66006C0073 +                       H'002E,H'0064,H'0061,H'0074,H'0000
+             0030005C00   
              73006E0061   
              006B006500   
              2E00640061   
-             0074         
-C   00000000              L351:
+             00740000     
+C   00000000              L352:
     00000000 4572726F72             .SDATA      "Error saving scores"
              2073617669   
              6E67207363   
              6F726573     
     00000013 0A                     .DATA.B     H'0A
-    00000014 4372656174             .SDATA      "Create File: %i"
-             652046696C   
-             653A202569   
-    00000023 00                     .DATA.B     H'00
-    00000024              L354:
+    00000014 3070656E20             .SDATA      "0pen File: %i"
+             46696C653A   
+             202569       
+    00000021 00                     .DATA.B     H'00
+    00000022 00000002               .RES.W      1
+    00000024              L355:
     00000024 4572726F72             .SDATA      "Error saving scores"
              2073617669   
              6E67207363   
              6F726573     
     00000037 0A                     .DATA.B     H'0A
-    00000038 3070656E20             .SDATA      "0pen File: %i"
-             46696C653A   
-             202569       
-    00000045 00                     .DATA.B     H'00
-    00000046 00000002               .RES.W      1
-    00000048              L357:
-    00000048 4572726F72             .SDATA      "Error saving scores"
-             2073617669   
-             6E67207363   
-             6F726573     
-    0000005B 0A                     .DATA.B     H'0A
-    0000005C 5772697469             .SDATA      "Writing File File: %i"
+    00000038 5772697469             .SDATA      "Writing File File: %i"
              6E67204669   
              6C65204669   
+             6C653A2025   
+             69           
+    0000004D 00                     .DATA.B     H'00
+    0000004E 00000002               .RES.W      1
 
 
 
 
-SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 01-Jan-2021 02:54:38  PAGE    3
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 01-Jan-2021 05:47:33  PAGE    5
 
 
 SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
 
-             6C653A2025   
-             69           
-    00000071 00                     .DATA.B     H'00
-    00000072 00000002               .RES.W      1
-    00000074              L363:
-    00000074 5468652073             .SDATA      "The savegame is"
+    00000050              L361:
+    00000050 5468652073             .SDATA      "The savegame is"
              6176656761   
              6D65206973   
-    00000083 0A                     .DATA.B     H'0A
-    00000084 636F727275             .SDATA      "corrupted."
+    0000005F 0A                     .DATA.B     H'0A
+    00000060 636F727275             .SDATA      "corrupted."
              707465642E   
-    0000008E 00                     .DATA.B     H'00
+    0000006A 00                     .DATA.B     H'00
 
 
 
@@ -196,7 +324,11 @@ SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
 
 
 
-SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 01-Jan-2021 02:54:38  PAGE    1
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 01-Jan-2021 05:47:33  PAGE    1
 
 
 ******** STATISTICS INFORMATION ********
@@ -212,26 +344,26 @@ NUMBER OF WARNINGS:         0
 
 ******* SOURCE LINE INFORMATION ********
 
-COMPILED SOURCE LINE:       64
+COMPILED SOURCE LINE:       58
 
 
 
 ******* SECTION SIZE INFORMATION *******
 
-PROGRAM  SECTION (P):                               0000000A Byte(s)
-CONSTANT SECTION (C):                               0000008F Byte(s)
-DATA     SECTION (D):                               00000020 Byte(s)
+PROGRAM  SECTION (P):                               0000010C Byte(s)
+CONSTANT SECTION (C):                               0000006B Byte(s)
+DATA     SECTION (D):                               00000022 Byte(s)
 BSS      SECTION (B):                               00000000 Byte(s)
 
- TOTAL PROGRAM SIZE: 000000B9 Byte(s)
+ TOTAL PROGRAM SIZE: 00000199 Byte(s)
 
 
 
 ********** LABEL INFORMATION ***********
 
-NUMBER OF EXTERNAL REFERENCE SYMBOLS:            0
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            8
 NUMBER OF EXTERNAL DEFINITION SYMBOLS:           3
-NUMBER OF INTERNAL/EXTERNAL SYMBOLS:             7
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            22
 
 
 
@@ -265,5 +397,5 @@ NUMBER OF INTERNAL/EXTERNAL SYMBOLS:             7
 *** COMMAND PARAMETER ***
 
 
-  -subcommand=C:\DOCUME~1\milky\LOCALS~1\Temp\hmk56D.tmp 
+  -subcommand=C:\DOCUME~1\milky\LOCALS~1\Temp\hmk580.tmp 
 
