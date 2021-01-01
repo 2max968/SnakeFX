@@ -15,6 +15,9 @@
 #include "Game.h"
 #include "Maps.h"
 #include "MainMenuDetector.h"
+#include "Savegame.h"
+#include <string.h>
+#include "Scorescreen.h"
 
 #define STATE_MAINMENU 1
 #define STATE_DIFFSELECT 2
@@ -23,8 +26,9 @@
 #define STATE_GAMEOVERSCREEN 5
 #define STATE_HELP 6
 #define STATE_ABOUT 7
+#define STATE_SCORES 8
 
-const char *txtHelp = "[\xE3,8] Move up\n[DOWN, 2] Move down\n[\xE4, 4] Move left\n[RIGHT, 6] Move right\n[EXIT] Game Menu";
+const char *txtHelp = "[UP,8] Move up\n[DOWN, 2] Move down\n[\xE4, 4] Move left\n[RIGHT, 6] Move right\n[EXIT] Game Menu";
 const char *txtAbout = "Snake for\nCasio fx-9860GII\n\nby Max Haag";
 
 //****************************************************************************
@@ -45,19 +49,23 @@ int AddIn_main(int isAppli, unsigned short OptionNum)
     int score, exitReason, res, difficulty, map;
     unsigned int state = STATE_MAINMENU;
     char text[30];
+    savegame_t scores;
 
     InitDetector();
     Bdisp_AllClr_DDVRAM();
+    memset(&scores, 0, sizeof(savegame_t));
+    LoadScores(&scores);
 
     while(1)
     {
         switch(state)
         {
             case STATE_MAINMENU:
-                res = ShowMenu(0, "Start Game\nHelp\nAbout");
+                res = ShowMenu(0, "Start Game\nHelp\nAbout\nHighscores");
                 if(res == 0) state = STATE_DIFFSELECT;
                 else if(res == 1) state = STATE_HELP;
                 else if(res == 2) state = STATE_ABOUT;
+                else if(res == 3) state = STATE_SCORES;
                 break;
             case STATE_DIFFSELECT:
                 difficulty = ShowMenu(1, "Easy\nMiddle\nHard\nExtreme");
@@ -65,7 +73,7 @@ int AddIn_main(int isAppli, unsigned short OptionNum)
                 else state = STATE_MAPSELECT;
                 break;
             case STATE_MAPSELECT:
-                map = MapSelector();
+                map = MapSelector(&scores.scores[difficulty]);
                 if(map < 0) state = STATE_DIFFSELECT;
                 else state = STATE_GAME;
                 break;
@@ -75,8 +83,12 @@ int AddIn_main(int isAppli, unsigned short OptionNum)
                 else state = STATE_MAINMENU;
                 break;
             case STATE_GAMEOVERSCREEN:
-                //sprintf(text, "\nGAME OVER\nScore: %i", score);
-                //ShowText(text);
+                if(scores.scores[difficulty].scores[map].val < score)
+                {
+                    ShowText("New Highscore");
+                    scores.scores[difficulty].scores[map].val = score;
+                    SaveScores(&scores);
+                }
                 state = STATE_MAINMENU;
                 break;
             case STATE_HELP:
@@ -85,6 +97,10 @@ int AddIn_main(int isAppli, unsigned short OptionNum)
                 break;
             case STATE_ABOUT:
                 ShowText(txtAbout);
+                state = STATE_MAINMENU;
+                break;
+            case STATE_SCORES:
+                ShowScores(&scores);
                 state = STATE_MAINMENU;
                 break;
         }

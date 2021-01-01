@@ -1,0 +1,401 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 01-Jan-2021 03:08:37  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: E:\Entwicklung\Casio\SDK\Snake\Scorescreen.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+      Scorescree     1    #include "Scorescreen.h"
+      Scorescree     2    #include "fxlib.h"
+      Scorescree     3    #include "SNAKE.h"
+      Scorescree     4    #include <stdio.h>
+      Scorescree     5    #include "Maps.h"
+      Scorescree     6    
+      Scorescree     7    void _printDifficulty(int diff)
+P   00000000              __printDifficulty:               ; function: _printDifficulty
+                                                           ; frame size=8
+    00000000 2FE6                   MOV.L       R14,@-R15
+      Scorescree     8    {
+      Scorescree     9        switch(diff)
+    00000002 6043                   MOV         R4,R0
+    00000004 4F22                   STS.L       PR,@-R15
+    00000006 8800                   CMP/EQ      #0,R0
+    00000008 DE2F                   MOV.L       L394,R14   ; _Print
+    0000000A 8907                   BT          L367
+    0000000C 8801                   CMP/EQ      #1,R0
+    0000000E 8908                   BT          L369
+    00000010 8802                   CMP/EQ      #2,R0
+    00000012 8909                   BT          L371
+    00000014 8803                   CMP/EQ      #3,R0
+    00000016 890A                   BT          L373
+    00000018 A00C                   BRA         L381
+    0000001A 0009                   NOP
+    0000001C              L367:                            ; case label 
+      Scorescree    10        {
+      Scorescree    11            case 0: Print((uchar*)"Easy"); break;
+    0000001C D42B                   MOV.L       L394+4,R4  ; L351
+    0000001E A007                   BRA         L393
+    00000020 0009                   NOP
+    00000022              L369:                            ; case label 
+      Scorescree    12            case 1: Print((uchar*)"Middle"); break;
+    00000022 D42B                   MOV.L       L394+8,R4  ; L352
+    00000024 A004                   BRA         L393
+    00000026 0009                   NOP
+    00000028              L371:                            ; case label 
+      Scorescree    13            case 2: Print((uchar*)"Hard"); break;
+    00000028 D42A                   MOV.L       L394+12,R4 ; L353
+    0000002A A001                   BRA         L393
+    0000002C 0009                   NOP
+    0000002E              L373:                            ; case label 
+      Scorescree    14            case 3: Print((uchar*)"Extreme"); break;
+    0000002E D42A                   MOV.L       L394+16,R4 ; L354
+    00000030              L393:                             
+    00000030 4E0B                   JSR         @R14
+    00000032 0009                   NOP
+    00000034              L381:                             
+      Scorescree    15        }
+      Scorescree    16    }
+    00000034 4F26                   LDS.L       @R15+,PR
+    00000036 000B                   RTS
+    00000038 6EF6                   MOV.L       @R15+,R14
+      Scorescree    17    
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 01-Jan-2021 03:08:37  PAGE    2
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+      Scorescree    18    void ShowScores(const savegame_t *scores)
+    0000003A              _ShowScores:                     ; function: ShowScores
+                                                           ; frame size=76
+    0000003A 2FE6                   MOV.L       R14,@-R15
+    0000003C 2FD6                   MOV.L       R13,@-R15
+      Scorescree    19    {
+      Scorescree    20        int diff = 0;
+    0000003E ED00                   MOV         #0,R13
+    00000040 2FC6                   MOV.L       R12,@-R15
+    00000042 2FB6                   MOV.L       R11,@-R15
+    00000044 2FA6                   MOV.L       R10,@-R15
+    00000046 2F96                   MOV.L       R9,@-R15
+    00000048 2F86                   MOV.L       R8,@-R15
+    0000004A 4F22                   STS.L       PR,@-R15
+    0000004C DA23                   MOV.L       L394+20,R10; _locate
+    0000004E 7FDC                   ADD         #-36,R15
+    00000050 DB23                   MOV.L       L394+24,R11; _sprintf
+    00000052 6EF3                   MOV         R15,R14
+    00000054 2F42                   MOV.L       R4,@R15
+    00000056 7E0C                   ADD         #12,R14
+      Scorescree    21        unsigned int key;
+      Scorescree    22        int i;
+      Scorescree    23        char text[22];
+      Scorescree    24    
+      Scorescree    25        while(1)
+    00000058              L383:                             
+      Scorescree    26        {
+      Scorescree    27            Bdisp_AllClr_DDVRAM();
+    00000058 D222                   MOV.L       L394+28,R2 ; _Bdisp_AllClr_DDVRAM
+    0000005A 420B                   JSR         @R2
+    0000005C 0009                   NOP
+      Scorescree    28            locate(1,1);
+    0000005E E501                   MOV         #1,R5
+    00000060 4A0B                   JSR         @R10
+    00000062 6453                   MOV         R5,R4
+      Scorescree    29            _printDifficulty(diff);
+    00000064 BFCC                   BSR         __printDifficulty
+    00000066 64D3                   MOV         R13,R4
+      Scorescree    30    
+      Scorescree    31            for(i = 0; i < 4; i++)
+    00000068 EC00                   MOV         #0,R12
+    0000006A 69D3                   MOV         R13,R9
+    0000006C 63D3                   MOV         R13,R3
+    0000006E 4900                   SHLL        R9
+    00000070 393C                   ADD         R3,R9
+    00000072 4908                   SHLL2       R9
+    00000074 4908                   SHLL2       R9
+    00000076              L384:                             
+      Scorescree    32            {
+      Scorescree    33                sprintf(text, "%s", GetMapName(i));
+    00000076 D21C                   MOV.L       L394+32,R2 ; _GetMapName
+    00000078 420B                   JSR         @R2
+    0000007A 64C3                   MOV         R12,R4
+    0000007C 2F06                   MOV.L       R0,@-R15
+    0000007E D31B                   MOV.L       L394+36,R3 ; L363
+    00000080 2F36                   MOV.L       R3,@-R15
+    00000082 4B0B                   JSR         @R11
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 01-Jan-2021 03:08:37  PAGE    3
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000084 64E3                   MOV         R14,R4
+    00000086 7F08                   ADD         #8,R15
+      Scorescree    34                locate(1,i+3);
+    00000088 65C3                   MOV         R12,R5
+    0000008A 7503                   ADD         #3,R5
+    0000008C 1F52                   MOV.L       R5,@(8,R15)
+    0000008E 4A0B                   JSR         @R10
+    00000090 E401                   MOV         #1,R4
+      Scorescree    35                Print((uchar*)text);
+    00000092 D30D                   MOV.L       L394,R3    ; _Print
+    00000094 430B                   JSR         @R3
+    00000096 64E3                   MOV         R14,R4
+    00000098 68C3                   MOV         R12,R8
+    0000009A 63C3                   MOV         R12,R3
+    0000009C 4800                   SHLL        R8
+    0000009E 383C                   ADD         R3,R8
+    000000A0 63F2                   MOV.L       @R15,R3
+    000000A2 4808                   SHLL2       R8
+    000000A4 339C                   ADD         R9,R3
+    000000A6 6233                   MOV         R3,R2
+    000000A8 328C                   ADD         R8,R2
+    000000AA 6322                   MOV.L       @R2,R3
+    000000AC 4315                   CMP/PL      R3
+    000000AE 8B21                   BF          L385
+      Scorescree    36                if(scores->scores[diff].scores[i].val > 0)
+      Scorescree    37                    sprintf(text, ":     %i", scores->scores[diff].scores[i].val);
+    000000B0 63F2                   MOV.L       @R15,R3
+    000000B2 339C                   ADD         R9,R3
+    000000B4 6233                   MOV         R3,R2
+    000000B6 382C                   ADD         R2,R8
+    000000B8 6382                   MOV.L       @R8,R3
+    000000BA 2F36                   MOV.L       R3,@-R15
+    000000BC D20C                   MOV.L       L394+40,R2 ; L364
+    000000BE 2F26                   MOV.L       R2,@-R15
+    000000C0 4B0B                   JSR         @R11
+    000000C2 64E3                   MOV         R14,R4
+    000000C4 A01B                   BRA         L386
+    000000C6 7F08                   ADD         #8,R15
+    000000C8              L394:                             
+    000000C8 <00000000>             .DATA.L     _Print
+    000000CC <00000000>             .DATA.L     L351
+    000000D0 <00000000>             .DATA.L     L352
+    000000D4 <00000000>             .DATA.L     L353
+    000000D8 <00000000>             .DATA.L     L354
+    000000DC <00000000>             .DATA.L     _locate
+    000000E0 <00000000>             .DATA.L     _sprintf
+    000000E4 <00000000>             .DATA.L     _Bdisp_AllClr_DDVRAM
+    000000E8 <00000000>             .DATA.L     _GetMapName
+    000000EC <00000000>             .DATA.L     L363
+    000000F0 <00000000>             .DATA.L     L364
+    000000F4              L385:                             
+      Scorescree    38                else
+      Scorescree    39                    sprintf(text, ":     -");
+    000000F4 D21B                   MOV.L       L395+8,R2  ; L365
+    000000F6 2F26                   MOV.L       R2,@-R15
+    000000F8 4B0B                   JSR         @R11
+    000000FA 64E3                   MOV         R14,R4
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 01-Jan-2021 03:08:37  PAGE    4
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000000FC 7F04                   ADD         #4,R15
+    000000FE              L386:                             
+      Scorescree    40                locate(12,i+3);
+    000000FE 55F2                   MOV.L       @(8,R15),R5
+    00000100 4A0B                   JSR         @R10
+    00000102 E40C                   MOV         #12,R4
+      Scorescree    41                Print((uchar*)text);
+    00000104 D318                   MOV.L       L395+12,R3 ; _Print
+    00000106 430B                   JSR         @R3
+    00000108 64E3                   MOV         R14,R4
+    0000010A 7C01                   ADD         #1,R12
+    0000010C E204                   MOV         #4,R2
+    0000010E 3C23                   CMP/GE      R2,R12
+    00000110 8BB1                   BF          L384
+      Scorescree    42            }
+      Scorescree    43    
+      Scorescree    44            GetKey(&key);
+    00000112 64F3                   MOV         R15,R4
+    00000114 D215                   MOV.L       L395+16,R2 ; _GetKey
+    00000116 420B                   JSR         @R2
+    00000118 7404                   ADD         #4,R4
+      Scorescree    45            switch(key)
+    0000011A 50F1                   MOV.L       @(4,R15),R0
+    0000011C 911E                   MOV.W       L395,R1    ; H'7532
+    0000011E 3010                   CMP/EQ      R1,R0
+    00000120 8912                   BT          L388
+    00000122 911C                   MOV.W       L395+2,R1  ; H'7544
+    00000124 3010                   CMP/EQ      R1,R0
+    00000126 8904                   BT          L379
+    00000128 911A                   MOV.W       L395+4,R1  ; H'7545
+    0000012A 3010                   CMP/EQ      R1,R0
+    0000012C 8906                   BT          L380
+    0000012E AF93                   BRA         L383
+    00000130 0009                   NOP
+    00000132              L379:                            ; case label 
+      Scorescree    46            {
+      Scorescree    47                case KEY_CTRL_EXIT:
+      Scorescree    48                    return;
+      Scorescree    49                case KEY_CTRL_LEFT:
+      Scorescree    50                    diff--;
+    00000132 7DFF                   ADD         #-1,R13
+      Scorescree    51                    if(diff < 0) diff = 3;
+    00000134 4D11                   CMP/PZ      R13
+    00000136 898F                   BT          L383
+      Scorescree    52                    break;
+    00000138 AF8E                   BRA         L383
+    0000013A ED03                   MOV         #3,R13
+    0000013C              L380:                            ; case label 
+      Scorescree    53                case KEY_CTRL_RIGHT:
+      Scorescree    54                    diff++;
+    0000013C 7D01                   ADD         #1,R13
+      Scorescree    55                    if(diff > 3) diff = 0;
+    0000013E E303                   MOV         #3,R3
+    00000140 3D37                   CMP/GT      R3,R13
+    00000142 8B89                   BF          L383
+    00000144 AF88                   BRA         L383
+    00000146 ED00                   MOV         #0,R13
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 01-Jan-2021 03:08:37  PAGE    5
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000148              L388:                             
+      Scorescree    56                    break;
+      Scorescree    57            }
+      Scorescree    58        }
+      Scorescree    59    }
+    00000148 7F24                   ADD         #36,R15
+    0000014A 4F26                   LDS.L       @R15+,PR
+    0000014C 68F6                   MOV.L       @R15+,R8
+    0000014E 69F6                   MOV.L       @R15+,R9
+    00000150 6AF6                   MOV.L       @R15+,R10
+    00000152 6BF6                   MOV.L       @R15+,R11
+    00000154 6CF6                   MOV.L       @R15+,R12
+    00000156 6DF6                   MOV.L       @R15+,R13
+    00000158 000B                   RTS
+    0000015A 6EF6                   MOV.L       @R15+,R14
+    0000015C              L395:                             
+    0000015C 7532                   .DATA.W     H'7532
+    0000015E 7544                   .DATA.W     H'7544
+    00000160 7545                   .DATA.W     H'7545
+    00000162 0000                   .DATA.W     0
+    00000164 <00000000>             .DATA.L     L365
+    00000168 <00000000>             .DATA.L     _Print
+    0000016C <00000000>             .DATA.L     _GetKey
+C   00000000              L351:
+    00000000 45617379               .SDATA      "Easy"
+    00000004 00                     .DATA.B     H'00
+    00000005 00000001               .RES.B      1
+    00000006 00000002               .RES.W      1
+    00000008              L352:
+    00000008 4D6964646C             .SDATA      "Middle"
+             65           
+    0000000E 00                     .DATA.B     H'00
+    0000000F 00000001               .RES.B      1
+    00000010              L353:
+    00000010 48617264               .SDATA      "Hard"
+    00000014 00                     .DATA.B     H'00
+    00000015 00000001               .RES.B      1
+    00000016 00000002               .RES.W      1
+    00000018              L354:
+    00000018 4578747265             .SDATA      "Extreme"
+             6D65         
+    0000001F 00                     .DATA.B     H'00
+    00000020              L363:
+    00000020 2573                   .SDATA      "%s"
+    00000022 00                     .DATA.B     H'00
+    00000023 00000001               .RES.B      1
+    00000024              L364:
+    00000024 3A20202020             .SDATA      ":     %i"
+             202569       
+    0000002C 00                     .DATA.B     H'00
+    0000002D 00000001               .RES.B      1
+    0000002E 00000002               .RES.W      1
+    00000030              L365:
+    00000030 3A20202020             .SDATA      ":     -"
+             202D         
+    00000037 00                     .DATA.B     H'00
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 01-Jan-2021 03:08:37  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       59
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000170 Byte(s)
+CONSTANT SECTION (C):                               00000038 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+ TOTAL PROGRAM SIZE: 000001A8 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            6
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           2
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            30
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\DOCUME~1\milky\LOCALS~1\Temp\hmk576.tmp 
+

@@ -1,4 +1,4 @@
-SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Dec-2020 10:02:01  PAGE    1
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 01-Jan-2021 02:34:04  PAGE    1
 
 ************ OBJECT LISTING ************
 
@@ -16,191 +16,192 @@ SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
 P   00000000              _GetMapCount:                    ; function: GetMapCount
                                                            ; frame size=0
           Maps.c     8    {
-          Maps.c     9        return 4;
-          Maps.c    10    }
+          Maps.c     9        // If value changed, value has to be changed in "Savegame.h" too
+          Maps.c    10        return 4;
+          Maps.c    11    }
     00000000 000B                   RTS
     00000002 E004                   MOV         #4,R0
-          Maps.c    11    
-          Maps.c    12    unsigned int map0[32] = {0,};
-          Maps.c    13    unsigned int map1[] = {0xFFFF, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x8
+          Maps.c    12    
+          Maps.c    13    unsigned int map0[32] = {0,};
+          Maps.c    14    unsigned int map1[] = {0xFFFF, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x8
                          +001, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 
-          Maps.c    14                        0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001
+          Maps.c    15                        0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001
                          +, 0x8001, 0x8001, 0x8001, 0x8001, 0xFFFF};
-          Maps.c    15    unsigned int map2[] = {0xF81F, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0, 
+          Maps.c    16    unsigned int map2[] = {0xF81F, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0, 
                          +0, 0, 0, 0, 0, 
-          Maps.c    16                        0, 0, 0, 0, 0, 0, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x80
+          Maps.c    17                        0, 0, 0, 0, 0, 0, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x80
                          +01, 0xF81F};
-          Maps.c    17    unsigned int map3[] = {0xF81F, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x8
+          Maps.c    18    unsigned int map3[] = {0xF81F, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x8
                          +10, 0x810, 0x810, 0x810, 0x810, 0x810, 
-          Maps.c    18                        0x810, 0x810, 0x810, 0x810, 0x810, 0x810, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x80
+          Maps.c    19                        0x810, 0x810, 0x810, 0x810, 0x810, 0x810, 0x8001, 0x8001, 0x8001, 0x8001, 0x8001, 0x80
                          +01, 0x8001, 0x8001, 0x8001, 0xF81F};
-          Maps.c    19    
-          Maps.c    20    unsigned int *GetMap(int index)
+          Maps.c    20    
+          Maps.c    21    unsigned int *GetMap(int index)
     00000004              _GetMap:                         ; function: GetMap
                                                            ; frame size=0
-          Maps.c    21    {
-          Maps.c    22        switch(index)
+          Maps.c    22    {
+          Maps.c    23        switch(index)
     00000004 6043                   MOV         R4,R0
     00000006 8800                   CMP/EQ      #0,R0
-    00000008 8910                   BT          L392
+    00000008 8910                   BT          L398
     0000000A 8801                   CMP/EQ      #1,R0
-    0000000C 8905                   BT          L394
+    0000000C 8905                   BT          L400
     0000000E 8802                   CMP/EQ      #2,R0
-    00000010 8906                   BT          L395
+    00000010 8906                   BT          L401
     00000012 8803                   CMP/EQ      #3,R0
-    00000014 8907                   BT          L396
-    00000016 A009                   BRA         L392
+    00000014 8907                   BT          L402
+    00000016 A009                   BRA         L398
     00000018 0009                   NOP
-    0000001A              L394:                            ; case label 
-          Maps.c    23        {
-          Maps.c    24            case 0: return map0;
-          Maps.c    25            case 1: return map1;
-    0000001A D03D                   MOV.L       L431+2,R0  ; _map1
+    0000001A              L400:                            ; case label 
+          Maps.c    24        {
+          Maps.c    25            case 0: return map0;
+          Maps.c    26            case 1: return map1;
+    0000001A D03D                   MOV.L       L440+2,R0  ; _map1
     0000001C 000B                   RTS
     0000001E 0009                   NOP
-    00000020              L395:                            ; case label 
-          Maps.c    26            case 2: return map2;
+    00000020              L401:                            ; case label 
 
 
 
 
-SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Dec-2020 10:02:01  PAGE    2
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 01-Jan-2021 02:34:04  PAGE    2
 
 
 SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
 
-    00000020 D03C                   MOV.L       L431+6,R0  ; _map2
+          Maps.c    27            case 2: return map2;
+    00000020 D03C                   MOV.L       L440+6,R0  ; _map2
     00000022 000B                   RTS
     00000024 0009                   NOP
-    00000026              L396:                            ; case label 
-          Maps.c    27            case 3: return map3;
-    00000026 D03C                   MOV.L       L431+10,R0 ; _map3
+    00000026              L402:                            ; case label 
+          Maps.c    28            case 3: return map3;
+    00000026 D03C                   MOV.L       L440+10,R0 ; _map3
     00000028 000B                   RTS
     0000002A 0009                   NOP
-    0000002C              L392:
-          Maps.c    28            default: return map0;
-    0000002C D03B                   MOV.L       L431+14,R0 ; _map0
-          Maps.c    29        }
-          Maps.c    30    }
-    0000002E              L417:                             
+    0000002C              L398:
+          Maps.c    29            default: return map0;
+    0000002C D03B                   MOV.L       L440+14,R0 ; _map0
+          Maps.c    30        }
+          Maps.c    31    }
+    0000002E              L424:                             
     0000002E 000B                   RTS
     00000030 0009                   NOP
-          Maps.c    31    
-          Maps.c    32    char* GetMapName(int index)
+          Maps.c    32    
+          Maps.c    33    char* GetMapName(int index)
     00000032              _GetMapName:                     ; function: GetMapName
                                                            ; frame size=0
-          Maps.c    33    {
-          Maps.c    34        switch(index)
+          Maps.c    34    {
+          Maps.c    35        switch(index)
     00000032 6043                   MOV         R4,R0
     00000034 8800                   CMP/EQ      #0,R0
-    00000036 8907                   BT          L398
+    00000036 8907                   BT          L404
     00000038 8801                   CMP/EQ      #1,R0
-    0000003A 8908                   BT          L400
+    0000003A 8908                   BT          L406
     0000003C 8802                   CMP/EQ      #2,R0
-    0000003E 8909                   BT          L402
+    0000003E 8909                   BT          L408
     00000040 8803                   CMP/EQ      #3,R0
-    00000042 890A                   BT          L404
-    00000044 A00C                   BRA         L406
+    00000042 890A                   BT          L410
+    00000044 A00C                   BRA         L412
     00000046 0009                   NOP
-    00000048              L398:                            ; case label 
-          Maps.c    35        {
-          Maps.c    36            case 0: return "Normal";
-    00000048 D035                   MOV.L       L431+18,R0 ; L364
+    00000048              L404:                            ; case label 
+          Maps.c    36        {
+          Maps.c    37            case 0: return "Normal";
+    00000048 D035                   MOV.L       L440+18,R0 ; L366
     0000004A 000B                   RTS
     0000004C 0009                   NOP
-    0000004E              L400:                            ; case label 
-          Maps.c    37            case 1: return "Walls";
-    0000004E D035                   MOV.L       L431+22,R0 ; L365
+    0000004E              L406:                            ; case label 
+          Maps.c    38            case 1: return "Walls";
+    0000004E D035                   MOV.L       L440+22,R0 ; L367
     00000050 000B                   RTS
     00000052 0009                   NOP
-    00000054              L402:                            ; case label 
-          Maps.c    38            case 2: return "Corners";
-    00000054 D034                   MOV.L       L431+26,R0 ; L366
+    00000054              L408:                            ; case label 
+          Maps.c    39            case 2: return "Corners";
+    00000054 D034                   MOV.L       L440+26,R0 ; L368
     00000056 000B                   RTS
     00000058 0009                   NOP
-    0000005A              L404:                            ; case label 
-          Maps.c    39            case 3: return "Pipes";
-    0000005A D034                   MOV.L       L431+30,R0 ; L367
+    0000005A              L410:                            ; case label 
+          Maps.c    40            case 3: return "Pipes";
+    0000005A D034                   MOV.L       L440+30,R0 ; L369
     0000005C 000B                   RTS
     0000005E 0009                   NOP
-    00000060              L406:                            ; default label 
-          Maps.c    40            default: return "#Mapname";
-    00000060 D033                   MOV.L       L431+34,R0 ; L368
+    00000060              L412:                            ; default label 
+          Maps.c    41            default: return "#Mapname";
 
 
 
 
-SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Dec-2020 10:02:01  PAGE    3
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 01-Jan-2021 02:34:04  PAGE    3
 
 
 SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
 
-          Maps.c    41        }
-          Maps.c    42    }
-    00000062              L419:                             
+    00000060 D033                   MOV.L       L440+34,R0 ; L370
+          Maps.c    42        }
+          Maps.c    43    }
+    00000062              L426:                             
     00000062 000B                   RTS
     00000064 0009                   NOP
-          Maps.c    43    
-          Maps.c    44    uchar GetBlock(int x, int y, unsigned int *map)
+          Maps.c    44    
+          Maps.c    45    uchar GetBlock(int x, int y, unsigned int *map)
     00000066              _GetBlock:                       ; function: GetBlock
                                                            ; frame size=0
-          Maps.c    45    {
-          Maps.c    46        unsigned int col;
-          Maps.c    47        uchar block;
-          Maps.c    48        
-          Maps.c    49        if(x < 0 || y < 0 || x >= FWIDTH || y >= FHEIGHT) return 1;
+          Maps.c    46    {
+          Maps.c    47        unsigned int col;
+          Maps.c    48        uchar block;
+          Maps.c    49        
+          Maps.c    50        if(x < 0 || y < 0 || x >= FWIDTH || y >= FHEIGHT) return 1;
     00000066 4411                   CMP/PZ      R4
-    00000068 8B07                   BF          L421
+    00000068 8B07                   BF          L428
     0000006A 4511                   CMP/PZ      R5
-    0000006C 8B05                   BF          L421
+    0000006C 8B05                   BF          L428
     0000006E E320                   MOV         #32,R3
     00000070 3433                   CMP/GE      R3,R4
-    00000072 8902                   BT          L421
+    00000072 8902                   BT          L428
     00000074 E110                   MOV         #16,R1
     00000076 3513                   CMP/GE      R1,R5
-    00000078 8B01                   BF          L420
-    0000007A              L421:                             
+    00000078 8B01                   BF          L427
+    0000007A              L428:                             
     0000007A 000B                   RTS
     0000007C E001                   MOV         #1,R0
-    0000007E              L420:                             
-          Maps.c    50    
-          Maps.c    51        col = map[x];
+    0000007E              L427:                             
+          Maps.c    51    
+          Maps.c    52        col = map[x];
     0000007E 6043                   MOV         R4,R0
     00000080 4008                   SHLL2       R0
-          Maps.c    52        block = (col >> y) & 1;
+          Maps.c    53        block = (col >> y) & 1;
     00000082 655B                   NEG         R5,R5
     00000084 046E                   MOV.L       @(R0,R6),R4
     00000086 E301                   MOV         #1,R3
     00000088 445D                   SHLD        R5,R4
     0000008A 2439                   AND         R3,R4
-          Maps.c    53        return block;
+          Maps.c    54        return block;
     0000008C 6043                   MOV         R4,R0
-          Maps.c    54    }
-    0000008E              L422:                             
+          Maps.c    55    }
+    0000008E              L429:                             
     0000008E 000B                   RTS
     00000090 0009                   NOP
-          Maps.c    55    
-          Maps.c    56    void DrawMap(int x, int y, unsigned int *map)
+          Maps.c    56    
+          Maps.c    57    void DrawMap(int x, int y, unsigned int *map)
     00000092              _DrawMap:                        ; function: DrawMap
                                                            ; frame size=44
-          Maps.c    57    {
-          Maps.c    58        int _x, _y;
-          Maps.c    59    
-          Maps.c    60        DrawRect(x, y, FWIDTH*2+2, FHEIGHT*2+2);
+          Maps.c    58    {
+          Maps.c    59        int _x, _y;
+          Maps.c    60    
+          Maps.c    61        DrawRect(x, y, FWIDTH*2+2, FHEIGHT*2+2);
     00000092 E722                   MOV         #34,R7
-    00000094 D327                   MOV.L       L431+38,R3 ; _DrawRect
+    00000094 D327                   MOV.L       L440+38,R3 ; _DrawRect
     00000096 2FE6                   MOV.L       R14,@-R15
     00000098 2FD6                   MOV.L       R13,@-R15
-    0000009A 2FC6                   MOV.L       R12,@-R15
 
 
 
 
-SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Dec-2020 10:02:01  PAGE    4
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 01-Jan-2021 02:34:04  PAGE    4
 
 
 SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
 
+    0000009A 2FC6                   MOV.L       R12,@-R15
     0000009C 2FB6                   MOV.L       R11,@-R15
     0000009E 6C53                   MOV         R5,R12
     000000A0 2FA6                   MOV.L       R10,@-R15
@@ -214,36 +215,36 @@ SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
     000000B0 E642                   MOV         #66,R6
     000000B2 430B                   JSR         @R3
     000000B4 64F2                   MOV.L       @R15,R4
-          Maps.c    61        x++;
-          Maps.c    62        y++;
+          Maps.c    62        x++;
+          Maps.c    63        y++;
     000000B6 7C01                   ADD         #1,R12
     000000B8 62F2                   MOV.L       @R15,R2
-          Maps.c    63        for(_x = 0; _x < FWIDTH; _x++)
+          Maps.c    64        for(_x = 0; _x < FWIDTH; _x++)
     000000BA E820                   MOV         #32,R8
     000000BC 7201                   ADD         #1,R2
     000000BE EA10                   MOV         #16,R10
     000000C0 2F22                   MOV.L       R2,@R15
     000000C2 EB00                   MOV         #0,R11
     000000C4 6DB3                   MOV         R11,R13
-    000000C6              L423:                             
-          Maps.c    64        {
-          Maps.c    65            for(_y = 0; _y < FHEIGHT; _y++)
+    000000C6              L430:                             
+          Maps.c    65        {
+          Maps.c    66            for(_y = 0; _y < FHEIGHT; _y++)
     000000C6 6EB3                   MOV         R11,R14
     000000C8 63F2                   MOV.L       @R15,R3
     000000CA 69D3                   MOV         R13,R9
     000000CC 4900                   SHLL        R9
     000000CE 393C                   ADD         R3,R9
-    000000D0              L424:                             
-          Maps.c    66            {
-          Maps.c    67                uchar block = GetBlock(_x,_y,map);
+    000000D0              L431:                             
+          Maps.c    67            {
+          Maps.c    68                uchar block = GetBlock(_x,_y,map);
     000000D0 56F1                   MOV.L       @(4,R15),R6
     000000D2 65E3                   MOV         R14,R5
     000000D4 BFC7                   BSR         _GetBlock
     000000D6 64D3                   MOV         R13,R4
-          Maps.c    68                FillRect(x + _x*2, y + _y*2,2,2,block);
+          Maps.c    69                FillRect(x + _x*2, y + _y*2,2,2,block);
     000000D8 2F06                   MOV.L       R0,@-R15
     000000DA E702                   MOV         #2,R7
-    000000DC D316                   MOV.L       L431+42,R3 ; _FillRect
+    000000DC D316                   MOV.L       L440+42,R3 ; _FillRect
     000000DE 6403                   MOV         R0,R4
     000000E0 6673                   MOV         R7,R6
     000000E2 65E3                   MOV         R14,R5
@@ -253,23 +254,23 @@ SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
     000000EA 6493                   MOV         R9,R4
     000000EC 7E01                   ADD         #1,R14
     000000EE 3EA3                   CMP/GE      R10,R14
-    000000F0 8FEE                   BF/S        L424
+    000000F0 8FEE                   BF/S        L431
     000000F2 7F04                   ADD         #4,R15
     000000F4 7D01                   ADD         #1,R13
     000000F6 3D83                   CMP/GE      R8,R13
-    000000F8 8BE5                   BF          L423
 
 
 
 
-SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Dec-2020 10:02:01  PAGE    5
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 01-Jan-2021 02:34:04  PAGE    5
 
 
 SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
 
-          Maps.c    69            }
-          Maps.c    70        }
-          Maps.c    71    }
+    000000F8 8BE5                   BF          L430
+          Maps.c    70            }
+          Maps.c    71        }
+          Maps.c    72    }
     000000FA 7F08                   ADD         #8,R15
     000000FC 4F26                   LDS.L       @R15+,PR
     000000FE 68F6                   MOV.L       @R15+,R8
@@ -280,23 +281,23 @@ SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
     00000108 6DF6                   MOV.L       @R15+,R13
     0000010A 000B                   RTS
     0000010C 6EF6                   MOV.L       @R15+,R14
-    0000010E              L431:                             
+    0000010E              L440:                             
     0000010E 0000                   .DATA.W     0
     00000110 <00000000>             .DATA.L     _map1
     00000114 <00000000>             .DATA.L     _map2
     00000118 <00000000>             .DATA.L     _map3
     0000011C <00000000>             .DATA.L     _map0
-    00000120 <00000000>             .DATA.L     L364
-    00000124 <00000000>             .DATA.L     L365
-    00000128 <00000000>             .DATA.L     L366
-    0000012C <00000000>             .DATA.L     L367
-    00000130 <00000000>             .DATA.L     L368
+    00000120 <00000000>             .DATA.L     L366
+    00000124 <00000000>             .DATA.L     L367
+    00000128 <00000000>             .DATA.L     L368
+    0000012C <00000000>             .DATA.L     L369
+    00000130 <00000000>             .DATA.L     L370
     00000134 <00000000>             .DATA.L     _DrawRect
     00000138 <00000000>             .DATA.L     _FillRect
-          Maps.c    72    
-          Maps.c    73    int MapSelector()
+          Maps.c    73    
+          Maps.c    74    int MapSelector(const difficultyCollection_t *scores)
     0000013C              _MapSelector:                    ; function: MapSelector
-                                                           ; frame size=68
+                                                           ; frame size=76
     0000013C 2FE6                   MOV.L       R14,@-R15
     0000013E 2FD6                   MOV.L       R13,@-R15
     00000140 2FC6                   MOV.L       R12,@-R15
@@ -304,175 +305,216 @@ SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
     00000144 2FA6                   MOV.L       R10,@-R15
     00000146 2F96                   MOV.L       R9,@-R15
     00000148 2F86                   MOV.L       R8,@-R15
-          Maps.c    74    {
-          Maps.c    75        int currentMap = 0;
-    0000014A E900                   MOV         #0,R9
+    0000014A 6843                   MOV         R4,R8
     0000014C 4F22                   STS.L       PR,@-R15
-    0000014E 7FE8                   ADD         #-24,R15
-          Maps.c    76        unsigned int key;
-          Maps.c    77        char text[20];
-          Maps.c    78        int mapCount = GetMapCount();
+    0000014E 7FE0                   ADD         #-32,R15
+          Maps.c    75    {
+          Maps.c    76        int currentMap = 0;
+          Maps.c    77        unsigned int key;
+          Maps.c    78        char text[20];
+          Maps.c    79        int mapCount = GetMapCount();
     00000150 BF56                   BSR         _GetMapCount
-    00000152 6E93                   MOV         R9,R14
-    00000154 DA2B                   MOV.L       L432+10,R10; _Print
-    00000156 6CF3                   MOV         R15,R12
-    00000158 DB2B                   MOV.L       L432+14,R11; _locate
-    0000015A 6803                   MOV         R0,R8
-    0000015C 6D03                   MOV         R0,R13
-    0000015E 7C04                   ADD         #4,R12
-    00000160 78FF                   ADD         #-1,R8
-          Maps.c    79    
-          Maps.c    80        while(1)
-    00000162              L426:                             
+    00000152 EE00                   MOV         #0,R14
+    00000154 D93A                   MOV.L       L441+12,R9 ; _sprintf
+    00000156 6DF3                   MOV         R15,R13
+    00000158 DB3A                   MOV.L       L441+16,R11; _Print
+    0000015A 6203                   MOV         R0,R2
+    0000015C DC3A                   MOV.L       L441+20,R12; _locate
+    0000015E 6A03                   MOV         R0,R10
+    00000160 7D0C                   ADD         #12,R13
+    00000162 72FF                   ADD         #-1,R2
+    00000164 1F22                   MOV.L       R2,@(8,R15)
 
 
 
 
-SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Dec-2020 10:02:01  PAGE    6
-
-
-SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
-
-          Maps.c    81        {
-          Maps.c    82            Clear();
-    00000162 D32A                   MOV.L       L432+18,R3 ; _Clear
-    00000164 430B                   JSR         @R3
-    00000166 0009                   NOP
-          Maps.c    83            locate(1,1);
-    00000168 E501                   MOV         #1,R5
-    0000016A 4B0B                   JSR         @R11
-    0000016C 6453                   MOV         R5,R4
-          Maps.c    84            sprintf(text, "Map %i/%i", currentMap + 1, mapCount);
-    0000016E 62E3                   MOV         R14,R2
-    00000170 D327                   MOV.L       L432+22,R3 ; L390
-    00000172 7201                   ADD         #1,R2
-    00000174 2FD6                   MOV.L       R13,@-R15
-    00000176 2F26                   MOV.L       R2,@-R15
-    00000178 2F36                   MOV.L       R3,@-R15
-    0000017A D226                   MOV.L       L432+26,R2 ; _sprintf
-    0000017C 420B                   JSR         @R2
-    0000017E 64C3                   MOV         R12,R4
-    00000180 7F0C                   ADD         #12,R15
-          Maps.c    85            Print((uchar*)text);
-    00000182 4A0B                   JSR         @R10
-    00000184 64C3                   MOV         R12,R4
-          Maps.c    86            locate(1,2);
-    00000186 E502                   MOV         #2,R5
-    00000188 4B0B                   JSR         @R11
-    0000018A E401                   MOV         #1,R4
-          Maps.c    87            Print((uchar*)GetMapName(currentMap));
-    0000018C BF51                   BSR         _GetMapName
-    0000018E 64E3                   MOV         R14,R4
-    00000190 4A0B                   JSR         @R10
-    00000192 6403                   MOV         R0,R4
-          Maps.c    88            DrawMap(32,16,GetMap(currentMap));
-    00000194 BF36                   BSR         _GetMap
-    00000196 64E3                   MOV         R14,R4
-    00000198 6603                   MOV         R0,R6
-    0000019A E510                   MOV         #16,R5
-    0000019C BF79                   BSR         _DrawMap
-    0000019E E420                   MOV         #32,R4
-          Maps.c    89    
-          Maps.c    90            GetKey(&key);
-    000001A0 D21D                   MOV.L       L432+30,R2 ; _GetKey
-    000001A2 420B                   JSR         @R2
-    000001A4 64F3                   MOV         R15,R4
-          Maps.c    91            switch(key)
-    000001A6 60F2                   MOV.L       @R15,R0
-    000001A8 9127                   MOV.W       L432,R1    ; H'7534
-    000001AA 3010                   CMP/EQ      R1,R0
-    000001AC 890D                   BT          L409
-    000001AE 9125                   MOV.W       L432+2,R1  ; H'7537
-    000001B0 3010                   CMP/EQ      R1,R0
-    000001B2 890A                   BT          L410
-    000001B4 9123                   MOV.W       L432+4,R1  ; H'7532
-    000001B6 3010                   CMP/EQ      R1,R0
-    000001B8 8909                   BT          L411
-    000001BA 9121                   MOV.W       L432+6,R1  ; H'7544
-    000001BC 3010                   CMP/EQ      R1,R0
-
-
-
-
-SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Dec-2020 10:02:01  PAGE    7
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 01-Jan-2021 02:34:04  PAGE    6
 
 
 SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
 
-    000001BE 8908                   BT          L412
-    000001C0 911F                   MOV.W       L432+8,R1  ; H'7545
-    000001C2 3010                   CMP/EQ      R1,R0
-    000001C4 890A                   BT          L413
-    000001C6 AFCC                   BRA         L426
-    000001C8 0009                   NOP
-    000001CA              L409:                            ; case label 
+          Maps.c    80    
+          Maps.c    81        while(1)
+    00000166              L433:                             
+          Maps.c    82        {
+          Maps.c    83            Clear();
+    00000166 D139                   MOV.L       L441+24,R1 ; _Clear
+    00000168 410B                   JSR         @R1
+    0000016A 0009                   NOP
+          Maps.c    84            locate(1,1);
+    0000016C E501                   MOV         #1,R5
+    0000016E 4C0B                   JSR         @R12
+    00000170 6453                   MOV         R5,R4
+          Maps.c    85            sprintf(text, "Map %i/%i", currentMap + 1, mapCount);
+    00000172 63E3                   MOV         R14,R3
+    00000174 D236                   MOV.L       L441+28,R2 ; L393
+    00000176 7301                   ADD         #1,R3
+    00000178 2FA6                   MOV.L       R10,@-R15
+    0000017A 2F36                   MOV.L       R3,@-R15
+    0000017C 2F26                   MOV.L       R2,@-R15
+    0000017E 490B                   JSR         @R9
+    00000180 64D3                   MOV         R13,R4
+    00000182 7F0C                   ADD         #12,R15
+          Maps.c    86            Print((uchar*)text);
+    00000184 4B0B                   JSR         @R11
+    00000186 64D3                   MOV         R13,R4
+          Maps.c    87            locate(1,2);
+    00000188 E502                   MOV         #2,R5
+    0000018A 4C0B                   JSR         @R12
+    0000018C E401                   MOV         #1,R4
+          Maps.c    88            Print((uchar*)GetMapName(currentMap));
+    0000018E BF50                   BSR         _GetMapName
+    00000190 64E3                   MOV         R14,R4
+    00000192 4B0B                   JSR         @R11
+    00000194 6403                   MOV         R0,R4
+          Maps.c    89            DrawMap(32,16,GetMap(currentMap));
+    00000196 BF35                   BSR         _GetMap
+    00000198 64E3                   MOV         R14,R4
+    0000019A 6603                   MOV         R0,R6
+    0000019C E510                   MOV         #16,R5
+    0000019E BF78                   BSR         _DrawMap
+    000001A0 E420                   MOV         #32,R4
+          Maps.c    90    
+          Maps.c    91            if(scores != NULL)
+    000001A2 2888                   TST         R8,R8
+    000001A4 8919                   BT          L434
+    000001A6 63E3                   MOV         R14,R3
+    000001A8 62E3                   MOV         R14,R2
+    000001AA 4300                   SHLL        R3
+    000001AC 332C                   ADD         R2,R3
+    000001AE 4308                   SHLL2       R3
+    000001B0 1F31                   MOV.L       R3,@(4,R15)
+    000001B2 6283                   MOV         R8,R2
+    000001B4 323C                   ADD         R3,R2
+    000001B6 6122                   MOV.L       @R2,R1
+    000001B8 4115                   CMP/PL      R1
+    000001BA 8B0E                   BF          L434
           Maps.c    92            {
-          Maps.c    93                case KEY_CTRL_EXE:
-          Maps.c    94                case KEY_CTRL_ALPHA:
-    000001CA              L410:                            ; case label 
-          Maps.c    95                    return currentMap;
-    000001CA A00C                   BRA         L428
-    000001CC 60E3                   MOV         R14,R0
-    000001CE              L411:                            ; case label 
-          Maps.c    96                case KEY_CTRL_EXIT:
-          Maps.c    97                    return -1;
-    000001CE A00A                   BRA         L428
-    000001D0 E0FF                   MOV         #-1,R0
-    000001D2              L412:                            ; case label 
-          Maps.c    98                case KEY_CTRL_LEFT:
-          Maps.c    99                    currentMap--;
-    000001D2 7EFF                   ADD         #-1,R14
-          Maps.c   100                    if(currentMap < 0) currentMap = mapCount - 1;
-    000001D4 4E11                   CMP/PZ      R14
-    000001D6 89C4                   BT          L426
-          Maps.c   101                    break;
-    000001D8 AFC3                   BRA         L426
-    000001DA 6E83                   MOV         R8,R14
-    000001DC              L413:                            ; case label 
-          Maps.c   102                case KEY_CTRL_RIGHT:
-          Maps.c   103                    currentMap++;
-    000001DC 7E01                   ADD         #1,R14
-          Maps.c   104                    if(currentMap >= mapCount) currentMap = 0;
-    000001DE 3ED3                   CMP/GE      R13,R14
-    000001E0 8BBF                   BF          L426
-    000001E2 AFBE                   BRA         L426
-    000001E4 6E93                   MOV         R9,R14
-    000001E6              L428:                             
-          Maps.c   105                    break;
-          Maps.c   106            }
-          Maps.c   107        }
-          Maps.c   108    }
-    000001E6 7F18                   ADD         #24,R15
-    000001E8 4F26                   LDS.L       @R15+,PR
-    000001EA 68F6                   MOV.L       @R15+,R8
-    000001EC 69F6                   MOV.L       @R15+,R9
-    000001EE 6AF6                   MOV.L       @R15+,R10
-    000001F0 6BF6                   MOV.L       @R15+,R11
-    000001F2 6CF6                   MOV.L       @R15+,R12
-    000001F4 6DF6                   MOV.L       @R15+,R13
-    000001F6 000B                   RTS
-    000001F8 6EF6                   MOV.L       @R15+,R14
-    000001FA              L432:                             
-    000001FA 7534                   .DATA.W     H'7534
-    000001FC 7537                   .DATA.W     H'7537
-    000001FE 7532                   .DATA.W     H'7532
 
 
 
 
-SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Dec-2020 10:02:01  PAGE    8
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 01-Jan-2021 02:34:04  PAGE    7
 
 
 SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
 
-    00000200 7544                   .DATA.W     H'7544
-    00000202 7545                   .DATA.W     H'7545
-    00000204 <00000000>             .DATA.L     _Print
-    00000208 <00000000>             .DATA.L     _locate
-    0000020C <00000000>             .DATA.L     _Clear
-    00000210 <00000000>             .DATA.L     L390
-    00000214 <00000000>             .DATA.L     _sprintf
-    00000218 <00000000>             .DATA.L     _GetKey
+          Maps.c    93                if(scores->scores[currentMap].val > 0)
+          Maps.c    94                {
+          Maps.c    95                    sprintf(text, "Highscore: %i", scores->scores[currentMap].val);
+    000001BC 53F1                   MOV.L       @(4,R15),R3
+    000001BE 6283                   MOV         R8,R2
+    000001C0 323C                   ADD         R3,R2
+    000001C2 6122                   MOV.L       @R2,R1
+    000001C4 D323                   MOV.L       L441+32,R3 ; L396
+    000001C6 2F16                   MOV.L       R1,@-R15
+    000001C8 2F36                   MOV.L       R3,@-R15
+    000001CA 490B                   JSR         @R9
+    000001CC 64D3                   MOV         R13,R4
+    000001CE 7F08                   ADD         #8,R15
+          Maps.c    96                    locate(1, 8); Print((uchar*)text);
+    000001D0 E508                   MOV         #8,R5
+    000001D2 4C0B                   JSR         @R12
+    000001D4 E401                   MOV         #1,R4
+    000001D6 4B0B                   JSR         @R11
+    000001D8 64D3                   MOV         R13,R4
+    000001DA              L434:                             
+          Maps.c    97                }
+          Maps.c    98            }
+          Maps.c    99    
+          Maps.c   100            GetKey(&key);
+    000001DA D21F                   MOV.L       L441+36,R2 ; _GetKey
+    000001DC 420B                   JSR         @R2
+    000001DE 64F3                   MOV         R15,R4
+          Maps.c   101            switch(key)
+    000001E0 60F2                   MOV.L       @R15,R0
+    000001E2 9127                   MOV.W       L441,R1    ; H'7534
+    000001E4 3010                   CMP/EQ      R1,R0
+    000001E6 890D                   BT          L416
+    000001E8 9125                   MOV.W       L441+2,R1  ; H'7537
+    000001EA 3010                   CMP/EQ      R1,R0
+    000001EC 890A                   BT          L417
+    000001EE 9123                   MOV.W       L441+4,R1  ; H'7532
+    000001F0 3010                   CMP/EQ      R1,R0
+    000001F2 8909                   BT          L418
+    000001F4 9121                   MOV.W       L441+6,R1  ; H'7544
+    000001F6 3010                   CMP/EQ      R1,R0
+    000001F8 8908                   BT          L419
+    000001FA 911F                   MOV.W       L441+8,R1  ; H'7545
+    000001FC 3010                   CMP/EQ      R1,R0
+    000001FE 890A                   BT          L420
+    00000200 AFB1                   BRA         L433
+    00000202 0009                   NOP
+    00000204              L416:                            ; case label 
+          Maps.c   102            {
+          Maps.c   103                case KEY_CTRL_EXE:
+          Maps.c   104                case KEY_CTRL_ALPHA:
+    00000204              L417:                            ; case label 
+          Maps.c   105                    return currentMap;
+    00000204 A00C                   BRA         L437
+    00000206 60E3                   MOV         R14,R0
+    00000208              L418:                            ; case label 
+          Maps.c   106                case KEY_CTRL_EXIT:
+          Maps.c   107                    return -1;
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 01-Jan-2021 02:34:04  PAGE    8
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000208 A00A                   BRA         L437
+    0000020A E0FF                   MOV         #-1,R0
+    0000020C              L419:                            ; case label 
+          Maps.c   108                case KEY_CTRL_LEFT:
+          Maps.c   109                    currentMap--;
+    0000020C 7EFF                   ADD         #-1,R14
+          Maps.c   110                    if(currentMap < 0) currentMap = mapCount - 1;
+    0000020E 4E11                   CMP/PZ      R14
+    00000210 89A9                   BT          L433
+          Maps.c   111                    break;
+    00000212 AFA8                   BRA         L433
+    00000214 5EF2                   MOV.L       @(8,R15),R14
+    00000216              L420:                            ; case label 
+          Maps.c   112                case KEY_CTRL_RIGHT:
+          Maps.c   113                    currentMap++;
+    00000216 7E01                   ADD         #1,R14
+          Maps.c   114                    if(currentMap >= mapCount) currentMap = 0;
+    00000218 3EA3                   CMP/GE      R10,R14
+    0000021A 8BA4                   BF          L433
+    0000021C AFA3                   BRA         L433
+    0000021E EE00                   MOV         #0,R14
+    00000220              L437:                             
+          Maps.c   115                    break;
+          Maps.c   116            }
+          Maps.c   117        }
+          Maps.c   118    }
+    00000220 7F20                   ADD         #32,R15
+    00000222 4F26                   LDS.L       @R15+,PR
+    00000224 68F6                   MOV.L       @R15+,R8
+    00000226 69F6                   MOV.L       @R15+,R9
+    00000228 6AF6                   MOV.L       @R15+,R10
+    0000022A 6BF6                   MOV.L       @R15+,R11
+    0000022C 6CF6                   MOV.L       @R15+,R12
+    0000022E 6DF6                   MOV.L       @R15+,R13
+    00000230 000B                   RTS
+    00000232 6EF6                   MOV.L       @R15+,R14
+    00000234              L441:                             
+    00000234 7534                   .DATA.W     H'7534
+    00000236 7537                   .DATA.W     H'7537
+    00000238 7532                   .DATA.W     H'7532
+    0000023A 7544                   .DATA.W     H'7544
+    0000023C 7545                   .DATA.W     H'7545
+    0000023E 0000                   .DATA.W     0
+    00000240 <00000000>             .DATA.L     _sprintf
+    00000244 <00000000>             .DATA.L     _Print
+    00000248 <00000000>             .DATA.L     _locate
+    0000024C <00000000>             .DATA.L     _Clear
+    00000250 <00000000>             .DATA.L     L393
+    00000254 <00000000>             .DATA.L     L396
+    00000258 <00000000>             .DATA.L     _GetKey
 D   00000000              _map0:                           ; static: map0
     00000000 00000000               .DATA.L     H'00000000
     00000004 0000007C01             .DATAB.B    124,0
@@ -480,6 +522,15 @@ D   00000000              _map0:                           ; static: map0
     00000080              _map1:                           ; static: map1
     00000080 0000FFFF00             .DATA.L     H'0000FFFF,H'00008001,H'00008001,H'00008001,H'00008001,H'00008001,H'00008001,
              0080010000 +                       H'00008001,H'00008001,H'00008001,H'00008001,H'00008001,H'00008001,H'00008001,
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 01-Jan-2021 02:34:04  PAGE    9
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
              8001000080 +                       H'00008001,H'00008001,H'00008001,H'00008001,H'00008001,H'00008001,H'00008001,
              0100008001 +                       H'00008001,H'00008001,H'00008001,H'00008001,H'00008001,H'00008001,H'00008001,
              0000800100 +                       H'00008001,H'00008001,H'00008001,H'0000FFFF
@@ -522,15 +573,6 @@ D   00000000              _map0:                           ; static: map0
              0000000000   
              0000000000   
              0000000000   
-
-
-
-
-SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Dec-2020 10:02:01  PAGE    9
-
-
-SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
-
              0000000000   
              8001000080   
              0100008001   
@@ -546,6 +588,15 @@ SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
              8001000080 +                       H'00000810,H'00000810,H'00000810,H'00000810,H'00000810,H'00000810,H'00000810,
              0100008001 +                       H'00000810,H'00008001,H'00008001,H'00008001,H'00008001,H'00008001,H'00008001,
              0000800100 +                       H'00008001,H'00008001,H'00008001,H'0000F81F
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 01-Jan-2021 02:34:04  PAGE   10
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
              0080010000   
              8001000080   
              0100008001   
@@ -567,42 +618,39 @@ SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
              0100008001   
              0000800100   
              00F81F       
-C   00000000              L364:
+C   00000000              L366:
     00000000 4E6F726D61             .SDATA      "Normal"
              6C           
     00000006 00                     .DATA.B     H'00
     00000007 00000001               .RES.B      1
-    00000008              L365:
+    00000008              L367:
     00000008 57616C6C73             .SDATA      "Walls"
     0000000D 00                     .DATA.B     H'00
     0000000E 00000002               .RES.W      1
-    00000010              L366:
+    00000010              L368:
     00000010 436F726E65             .SDATA      "Corners"
              7273         
     00000017 00                     .DATA.B     H'00
-    00000018              L367:
+    00000018              L369:
     00000018 5069706573             .SDATA      "Pipes"
     0000001D 00                     .DATA.B     H'00
     0000001E 00000002               .RES.W      1
-    00000020              L368:
+    00000020              L370:
     00000020 234D61706E             .SDATA      "#Mapname"
              616D65       
     00000028 00                     .DATA.B     H'00
-
-
-
-
-SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Dec-2020 10:02:01  PAGE   10
-
-
-SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
-
     00000029 00000001               .RES.B      1
     0000002A 00000002               .RES.W      1
-    0000002C              L390:
+    0000002C              L393:
     0000002C 4D61702025             .SDATA      "Map %i/%i"
              692F2569     
     00000035 00                     .DATA.B     H'00
+    00000036 00000002               .RES.W      1
+    00000038              L396:
+    00000038 4869676873             .SDATA      "Highscore: %i"
+             636F72653A   
+             202569       
+    00000045 00                     .DATA.B     H'00
 
 
 
@@ -610,55 +658,7 @@ SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 30-Dec-2020 10:02:01  PAGE    1
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 01-Jan-2021 02:34:04  PAGE    1
 
 
 ******** STATISTICS INFORMATION ********
@@ -674,18 +674,18 @@ NUMBER OF WARNINGS:         0
 
 ******* SOURCE LINE INFORMATION ********
 
-COMPILED SOURCE LINE:      108
+COMPILED SOURCE LINE:      118
 
 
 
 ******* SECTION SIZE INFORMATION *******
 
-PROGRAM  SECTION (P):                               0000021C Byte(s)
-CONSTANT SECTION (C):                               00000036 Byte(s)
+PROGRAM  SECTION (P):                               0000025C Byte(s)
+CONSTANT SECTION (C):                               00000046 Byte(s)
 DATA     SECTION (D):                               00000200 Byte(s)
 BSS      SECTION (B):                               00000000 Byte(s)
 
- TOTAL PROGRAM SIZE: 00000452 Byte(s)
+ TOTAL PROGRAM SIZE: 000004A2 Byte(s)
 
 
 
@@ -693,7 +693,7 @@ BSS      SECTION (B):                               00000000 Byte(s)
 
 NUMBER OF EXTERNAL REFERENCE SYMBOLS:            7
 NUMBER OF EXTERNAL DEFINITION SYMBOLS:          10
-NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            48
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            50
 
 
 
@@ -727,5 +727,5 @@ NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            48
 *** COMMAND PARAMETER ***
 
 
-  -subcommand=C:\DOCUME~1\milky\LOCALS~1\Temp\hmk505.tmp 
+  -subcommand=C:\DOCUME~1\milky\LOCALS~1\Temp\hmk55F.tmp 
 

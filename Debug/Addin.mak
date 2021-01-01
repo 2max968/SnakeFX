@@ -14,7 +14,7 @@ SH_EXEDIR=$(TCDIR)\bin
 
 # Hitachi SH C/C++ Compiler02 phase
 SHCC02_EXE=shc.exe
-SHCC02_DEP="$(OSDIR)\FX\include\fxlib.h" "Menu.h" "Graphics.h" "Game.h" "Maps.h" "Digits.h" "MainMenuDetector.h"
+SHCC02_DEP="$(OSDIR)\FX\include\fxlib.h" "Menu.h" "Graphics.h" "Game.h" "Maps.h" "Digits.h" "MainMenuDetector.h" "Savegame.h" "Scorescreen.h"
 
 # Hitachi SH Assembler03 phase
 SHASM03_EXE=asmsh.exe
@@ -47,8 +47,14 @@ FILEOBJ5="$(OUTDIR)\$(FILE5).obj"
 FILE6=MainMenuDetector
 FILESRC6="$(APPDIR)\$(FILE6).c"
 FILEOBJ6="$(OUTDIR)\$(FILE6).obj"
+FILE7=Savegame
+FILESRC7="$(APPDIR)\$(FILE7).c"
+FILEOBJ7="$(OUTDIR)\$(FILE7).obj"
+FILE8=Scorescreen
+FILESRC8="$(APPDIR)\$(FILE8).c"
+FILEOBJ8="$(OUTDIR)\$(FILE8).obj"
 RFILE=FXADDINror
-USERALLOBJ=$(FILEOBJ0) $(FILEOBJ1) $(FILEOBJ2) $(FILEOBJ3) $(FILEOBJ4) $(FILEOBJ5) $(FILEOBJ6)
+USERALLOBJ=$(FILEOBJ0) $(FILEOBJ1) $(FILEOBJ2) $(FILEOBJ3) $(FILEOBJ4) $(FILEOBJ5) $(FILEOBJ6) $(FILEOBJ7) $(FILEOBJ8)
 
 #######################
 # nmake "all" statement
@@ -185,6 +191,40 @@ $(FILEOBJ6) : $(FILESRC6) $(SHCC02_DEP)
 -chgincpath
 -errorpath
 $(FILESRC6)
+-lang=c
+-nologo
+-debug
+<<
+
+$(FILEOBJ7) : $(FILESRC7) $(SHCC02_DEP)
+	"$(SH_EXEDIR)\$(SHCC02_EXE)" -subcommand=<<
+-cpu=sh3
+-include="$(OSDIR)\FX\include","$(APPDIR)"
+-objectfile=$(FILEOBJ7)
+-show=source
+-listfile="$(OUTDIR)\$(FILE7).lst"
+-size
+-noinline
+-chgincpath
+-errorpath
+$(FILESRC7)
+-lang=c
+-nologo
+-debug
+<<
+
+$(FILEOBJ8) : $(FILESRC8) $(SHCC02_DEP)
+	"$(SH_EXEDIR)\$(SHCC02_EXE)" -subcommand=<<
+-cpu=sh3
+-include="$(OSDIR)\FX\include","$(APPDIR)"
+-objectfile=$(FILEOBJ8)
+-show=source
+-listfile="$(OUTDIR)\$(FILE8).lst"
+-size
+-noinline
+-chgincpath
+-errorpath
+$(FILESRC8)
 -lang=c
 -nologo
 -debug

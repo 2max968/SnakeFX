@@ -6,6 +6,7 @@
 
 int GetMapCount()
 {
+    // If value changed, value has to be changed in "Savegame.h" too
     return 4;
 }
 
@@ -70,7 +71,7 @@ void DrawMap(int x, int y, unsigned int *map)
     }
 }
 
-int MapSelector()
+int MapSelector(const difficultyCollection_t *scores)
 {
     int currentMap = 0;
     unsigned int key;
@@ -86,6 +87,15 @@ int MapSelector()
         locate(1,2);
         Print((uchar*)GetMapName(currentMap));
         DrawMap(32,16,GetMap(currentMap));
+
+        if(scores != NULL)
+        {
+            if(scores->scores[currentMap].val > 0)
+            {
+                sprintf(text, "Highscore: %i", scores->scores[currentMap].val);
+                locate(1, 8); Print((uchar*)text);
+            }
+        }
 
         GetKey(&key);
         switch(key)

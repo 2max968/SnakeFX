@@ -1,0 +1,269 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 01-Jan-2021 02:54:38  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: E:\Entwicklung\Casio\SDK\Snake\Savegame.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+      Savegame.c     1    #include "Savegame.h"
+      Savegame.c     2    #include "fxlib.h"
+      Savegame.c     3    #include "filebios.h"
+      Savegame.c     4    #include "Menu.h"
+      Savegame.c     5    #include <stdio.h>
+      Savegame.c     6    
+      Savegame.c     7    FONTCHARACTER filename[] = {0x71,0x71,'f','l','s','0',0x71, 's', 'n', 'a', 'k', 'e', '.', 'd', 'a', 't'};
+      Savegame.c     8    
+      Savegame.c     9    void SaveScores(const savegame_t *savegame)
+P   00000000              _SaveScores:                     ; function: SaveScores
+                                                           ; frame size=52
+    00000000 7FCC                   ADD         #-52,R15
+      Savegame.c    10    {
+      Savegame.c    11        int fileHandle, error;
+      Savegame.c    12        return;
+      Savegame.c    13        fileHandle = Bfile_CreateFile(filename, sizeof(savegame_t));
+      Savegame.c    14    
+      Savegame.c    15        if(fileHandle < 0)
+      Savegame.c    16        {
+      Savegame.c    17            char text[50];
+      Savegame.c    18            sprintf(text, "Error saving scores\nCreate File: %i", fileHandle);
+      Savegame.c    19            ShowText(text);
+      Savegame.c    20            return;
+      Savegame.c    21        }
+      Savegame.c    22    
+      Savegame.c    23        Bfile_CloseFile(fileHandle);
+      Savegame.c    24        fileHandle = Bfile_OpenFile(filename, _OPENMODE_WRITE);
+      Savegame.c    25    
+      Savegame.c    26        if(fileHandle < 0)
+      Savegame.c    27        {
+      Savegame.c    28            char text[50];
+      Savegame.c    29            sprintf(text, "Error saving scores\n0pen File: %i", fileHandle);
+      Savegame.c    30            ShowText(text);
+      Savegame.c    31            return;
+      Savegame.c    32        }
+      Savegame.c    33    
+      Savegame.c    34        error = Bfile_WriteFile(fileHandle, savegame, sizeof(savegame_t));
+      Savegame.c    35    
+      Savegame.c    36        if(error < 0)
+      Savegame.c    37        {
+      Savegame.c    38            char text[50];
+      Savegame.c    39            sprintf(text, "Error saving scores\nWriting File File: %i", error);
+      Savegame.c    40            ShowText(text);
+      Savegame.c    41            return;
+      Savegame.c    42        }
+      Savegame.c    43    
+      Savegame.c    44        Bfile_CloseFile(fileHandle);
+      Savegame.c    45    }
+    00000002 000B                   RTS
+    00000004 7F34                   ADD         #52,R15
+      Savegame.c    46    
+      Savegame.c    47    void LoadScores(savegame_t *savegame)
+    00000006              _LoadScores:                     ; function: LoadScores
+                                                           ; frame size=0
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 01-Jan-2021 02:54:38  PAGE    2
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+      Savegame.c    48    {
+      Savegame.c    49        int fileHandle, fileSize;
+      Savegame.c    50        return;
+      Savegame.c    51        fileHandle = Bfile_OpenFile(filename, _OPENMODE_READ);
+      Savegame.c    52        if(fileHandle < 0) return;
+      Savegame.c    53    
+      Savegame.c    54        fileSize = Bfile_GetFileSize(fileHandle);
+      Savegame.c    55        if(fileSize != sizeof(savegame_t))
+      Savegame.c    56        {
+      Savegame.c    57            ShowText("The savegame is\ncorrupted.");
+      Savegame.c    58            Bfile_CloseFile(fileHandle);
+      Savegame.c    59            return;
+      Savegame.c    60        }
+      Savegame.c    61    
+      Savegame.c    62        Bfile_ReadFile(fileHandle, savegame, sizeof(savegame_t), 0);
+      Savegame.c    63        Bfile_CloseFile(fileHandle);
+      Savegame.c    64    }
+    00000006 000B                   RTS
+    00000008 0009                   NOP
+D   00000000              _filename:                       ; static: filename
+    00000000 0071007100             .DATA.W     H'0071,H'0071,H'0066,H'006C,H'0073,H'0030,H'0071,H'0073,H'006E,H'0061,H'006B,H'0065,
+             66006C0073 +                       H'002E,H'0064,H'0061,H'0074
+             0030007100   
+             73006E0061   
+             006B006500   
+             2E00640061   
+             0074         
+C   00000000              L351:
+    00000000 4572726F72             .SDATA      "Error saving scores"
+             2073617669   
+             6E67207363   
+             6F726573     
+    00000013 0A                     .DATA.B     H'0A
+    00000014 4372656174             .SDATA      "Create File: %i"
+             652046696C   
+             653A202569   
+    00000023 00                     .DATA.B     H'00
+    00000024              L354:
+    00000024 4572726F72             .SDATA      "Error saving scores"
+             2073617669   
+             6E67207363   
+             6F726573     
+    00000037 0A                     .DATA.B     H'0A
+    00000038 3070656E20             .SDATA      "0pen File: %i"
+             46696C653A   
+             202569       
+    00000045 00                     .DATA.B     H'00
+    00000046 00000002               .RES.W      1
+    00000048              L357:
+    00000048 4572726F72             .SDATA      "Error saving scores"
+             2073617669   
+             6E67207363   
+             6F726573     
+    0000005B 0A                     .DATA.B     H'0A
+    0000005C 5772697469             .SDATA      "Writing File File: %i"
+             6E67204669   
+             6C65204669   
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 01-Jan-2021 02:54:38  PAGE    3
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+             6C653A2025   
+             69           
+    00000071 00                     .DATA.B     H'00
+    00000072 00000002               .RES.W      1
+    00000074              L363:
+    00000074 5468652073             .SDATA      "The savegame is"
+             6176656761   
+             6D65206973   
+    00000083 0A                     .DATA.B     H'0A
+    00000084 636F727275             .SDATA      "corrupted."
+             707465642E   
+    0000008E 00                     .DATA.B     H'00
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 01-Jan-2021 02:54:38  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       64
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               0000000A Byte(s)
+CONSTANT SECTION (C):                               0000008F Byte(s)
+DATA     SECTION (D):                               00000020 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+ TOTAL PROGRAM SIZE: 000000B9 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            0
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           3
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:             7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\DOCUME~1\milky\LOCALS~1\Temp\hmk56D.tmp 
+
